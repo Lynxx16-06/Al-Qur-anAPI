@@ -163,7 +163,7 @@
             :class="{ active: selectedSurah === item.nomor }"
             class="cursor-pointer p-3 bg-white shadow bg-gray-10 transition-all duration-300 rounded-2xl mb-2 hover:bg-green-700 "
           >
-            <strong>{{ item.nomor }}. {{ item.namaLatin }}</strong>
+          <strong>{{ convertToArabic(item.nomor) }}. {{ item.namaLatin }}</strong>
             <div class="flex justify-between">
               <span dir="rtl">{{ item.nama }}</span>
               <span>{{ item.jumlahAyat }} Ayat</span>

@@ -40,7 +40,7 @@
             :class="{ active: selectedDoa === doa }"
             class="cursor-pointer p-3 bg-white border transition-all duration-300 bg-gray-10 rounded-2xl mb-2 hover:bg-green-700 hover:text-white"
           >
-            <strong>{{ index + 1 }}. {{ doa.title }}</strong>
+            <strong>{{ convertToArabic(index + 1) }}. {{ doa.title }}</strong>
           </li>
         </ul>
       </div>
@@ -226,6 +226,9 @@ export default {
     }
   },
   methods: {
+    convertToArabic(number) {
+      return number.toString().replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+    },
     updateParentSearch() {
       // Emit event ke parent untuk update search di navbar utama
       this.$emit('update-search', this.localSearchQuery);
