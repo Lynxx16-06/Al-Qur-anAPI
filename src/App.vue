@@ -15,7 +15,7 @@
 
     <!-- Tombol Dark Mode -->
     <nav
-      class="flex flex-wrap justify-between items-center lg:justify-center lg:gap-80 px-5 py-4 bg-white bg-border-100 text-black transition-all duration-300 text-gray shadow-2xl fixed top-0 w-full z-50"
+      class="flex flex-wrap justify-between items-center lg:justify-center md: lg:gap-80 px-5 py-4 bg-white bg-border-100 text-black transition-all duration-300 text-gray shadow-2xl fixed top-0 w-full z-50"
     >
       <h2 class="font-bold text-xl md:text-2xl">Qur'anLynxx</h2>
       <div class="flex items-center space-x-6">
