@@ -1,0 +1,299 @@
+<template>
+  <main class="min-h-screen flex flex-col bg-white text-gray transition-all duration-300 bg-gray-10">
+    <!-- Main Content -->
+    <section
+      class="mt-25 lg:mt-20 md:mt-16 px-4 md:px-16 lg:px-80 py-6 flex flex-col lg:flex-row gap-5"
+    >
+      <!-- Daftar Surat -->
+      <div
+        class="bg-white shadow-2xl bg-border-100 transition-all duration-300 hidden md:block lg:block w-full lg:w-1/3 text-white overflow-y-auto h-[80vh] lg:h-[80vh] rounded-2xl p-4 no-scrollbar"
+      >
+        <ul>
+          <li
+            v-for="item in filteredSurat"
+            :key="item.nomor"
+            @click="getSuratDetail(item.nomor)"
+            :class="{ active: selectedSurah === item.nomor }"
+            class="cursor-pointer p-3 bg-white text-black border bg-border-100 text-gray hover:bg-gray-10 rounded-2xl mb-2 hover:bg-green-700 hover:text-white transition duration-200"
+          >
+            <strong>{{ item.nomor }}. {{ item.namaLatin }}</strong>
+            <div class="flex justify-between">
+              <span dir="rtl">{{ item.nama }}</span>
+              <span>{{ item.jumlahAyat }} Ayat</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Detail Surat -->
+      <div v-if="selectedSurat" class="w-full lg:w-2/3 bg-white shadow-2xl bg-border-100 transition-all duration-300 p-6 rounded-2xl">
+        <div class="bg-green-500 p-4 rounded-xl">
+          <h2 class="text-xl md:text-2xl text-white">
+            {{ selectedSurat.namaLatin }} - {{ selectedSurat.nama }} -
+            {{ selectedSurat.tempatTurun }}
+          </h2>
+          <div class="flex flex-col sm:flex-row justify-between items-center mt-2 text-white">
+            <span>{{ selectedSurat.jumlahAyat }} Ayat - {{ selectedSurat.arti }}</span>
+            <select v-model="selectedQari" class="bg-green-700 px-3 py-2 rounded-xl mt-2 sm:mt-0">
+              <option v-for="(src, qari) in selectedSurat.audioFull" :key="qari" :value="qari">
+                {{ qariList[qari] || `Qari ${qari}` }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="overflow-y-auto h-[60vh] no-scrollbar mt-4">
+          <div v-for="ayat in selectedSurat.ayat" :key="ayat.nomorAyat" class="mb-4">
+            <div class="bg-white bg-gray-10 transition-all duration-300 p-4 rounded-2xl">
+              <p class="text-xl text-right arabic-text">{{ ayat.teksArab }}</p>
+              <p class="text-green-400">
+                <em>{{ ayat.teksLatin }}</em>
+              </p>
+              <h1 class="my-5">Artinya:</h1>
+              <p>{{ ayat.teksIndonesia }}</p>
+              <button @click="playAyat(ayat.audio[selectedQari])" class="play-button">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  style="fill: rgba(255, 255, 255, 1)"
+                >
+                  <path d="M7 6v12l10-6z"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Jika tidak ada surat yang dipilih -->
+      <div v-else class=" text-center w-full md:w-100 lg:w-100">
+        <div>
+          <h1 class=" text-center text-3xl py-5">Hallo Selamat Datang!</h1>
+          <h1 class="md:hidden text-center text-2xl py-5">Qur'anLynxx</h1>
+          <div>
+            <p class="text-justify md:w-200 hidden">Assalamu'alaikum! Selamat datang di Qur'anLynxx. 'Dan sesungguhnya telah Kami mudahkan Al-Qur'an untuk pelajaran, maka adakah orang yang mau mengambil pelajaran?' (QS. Al-Qamar: 17). Mari mendekatkan diri kepada Allah melalui kalam-Nya.</p>
+            <img src="../assets/img/logoquran2.png" class="md:hidden w-200" alt="" data-aos="zoom-in" data-aos-duration="900">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="fixed bottom-0 w-full bg-white text-black bg-border-100 text-gray transition-all duration-300 text-center py-2">
+      <p>Copyright 2023</p>
+    </footer>
+
+    <div class="fixed md:hidden lg:hidden bottom-5 left-6 z-50">
+      <button class="bg-green-500 p-4 rounded-full" @click="openSurat">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="25"
+          height="25"
+          viewBox="0 0 24 24"
+          style="fill: rgba(255, 255, 255, 1)"
+        >
+          <path
+            d="M19 10H5c-1.103 0-2 .897-2 2v8c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2v-8c0-1.103-.897-2-2-2zM5 6h14v2H5zm2-4h10v2H7z"
+          ></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- MOBILE SURAH -->
+    <div
+      v-if="IsSurah"
+      class="fixed w-full p-3 top-27 backdrop:blur-2xl"
+      data-aos="fade-up"
+      data-aos-duration="500"
+    >
+      <div class="bg-white bg-border-100 md:hidden lg:hidden w-full lg:w-1/3 transition-all duration-300 text-black text-gray overflow-y-auto h-[83vh] lg:h-[80vh] rounded-2xl p-4 no-scrollbar">
+        <div class="mb-4">
+          <div class="items-center flex py-2 bg-gray-800 px-4 rounded-full border border-gray-600">
+            <input
+              class="bg-transparent outline-none text-white placeholder-gray-400 w-full"
+              type="text"
+              placeholder="Cari Surat..."
+              v-model="localSearchQuery"
+              @input="updateParentSearch"
+            />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              class="text-white"
+            >
+              <path
+                d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z"
+              ></path>
+            </svg>
+          </div>
+        </div>
+        <ul>
+          <li
+            v-for="item in filteredSurat"
+            :key="item.nomor"
+            @click="setActiveSurah(item.nomor)"
+            :class="{ active: selectedSurah === item.nomor }"
+            class="cursor-pointer p-3 bg-white shadow bg-gray-10 transition-all duration-300 rounded-2xl mb-2 hover:bg-green-700 "
+          >
+            <strong>{{ item.nomor }}. {{ item.namaLatin }}</strong>
+            <div class="flex justify-between">
+              <span dir="rtl">{{ item.nama }}</span>
+              <span>{{ item.jumlahAyat }} Ayat</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </main>
+</template>
+
+<script>
+import axios from 'axios'
+
+export default {
+  props: {
+    sidebarOpen: Boolean,
+    isDark: Boolean,
+    searchQuery: {
+      type: String,
+      default: ''
+    }
+  },
+  data() {
+    return {
+      quran: [],
+      selectedSurat: null,
+      selectedQari: '01',
+      currentAudio: null,
+      IsSurah: false,
+      localSearchQuery: '',
+      selectedSurah: null,
+      qariList: {
+        '01': 'Abdullah Al-Juhany',
+        '02': 'Abdul-Muhsin Al-Qasim',
+        '03': 'Abdurrahman As-Sudais',
+        '04': 'Ibrahim Al-Dossari',
+        '05': 'Misyari Rasyid Al-Afasi',
+      },
+    }
+  },
+  computed: {
+    filteredSurat() {
+      const query = (this.searchQuery || this.localSearchQuery || '').toLowerCase();
+      
+      if (!query) return this.quran;
+      
+      return this.quran.filter(
+        (item) =>
+          item.namaLatin.toLowerCase().includes(query) || 
+          item.nama.toLowerCase().includes(query) ||
+          item.nomor.toString().includes(query)
+      )
+    },
+  },
+  watch: {
+    // Watch searchQuery dari props untuk menyinkronkan dengan lokalSearchQuery
+    searchQuery: {
+      immediate: true,
+      handler(newVal) {
+        this.localSearchQuery = newVal;
+      }
+    }
+  },
+  mounted() {
+    this.getAllSurat();
+    
+    // Cek apakah ada searchQuery tersimpan di localStorage
+    const savedSearch = localStorage.getItem("searchQuery");
+    if (savedSearch) {
+      this.localSearchQuery = savedSearch;
+      // Emit ke parent untuk menyinkronkan
+      this.$emit('update-search', savedSearch);
+    }
+  },
+  methods: {
+    updateParentSearch() {
+      // Emit event ke parent untuk update search di navbar utama
+      this.$emit('update-search', this.localSearchQuery);
+      localStorage.setItem("searchQuery", this.localSearchQuery);
+    },
+    setActiveSurah(nomor) {
+      this.selectedSurah = nomor; 
+      this.getSuratDetail(nomor);
+      this.IsSurah = false; // Tutup mobile surah setelah pilih
+    },
+    openSurat() {
+      this.IsSurah = !this.IsSurah
+    },
+    async getAllSurat() {
+      try {
+        const response = await axios.get('https://equran.id/api/v2/surat')
+        this.quran = response.data.data
+        
+        // Auto-scroll ke hasil pencarian jika ada query saat load
+        if (this.localSearchQuery && this.filteredSurat.length > 0) {
+          // Bisa tambahkan logika untuk auto-scroll di sini jika diperlukan
+        }
+      } catch (error) {
+        console.error('Error fetching daftar surat:', error)
+      }
+    },
+
+    async getSuratDetail(nomorSurat) {
+      try {
+        const response = await axios.get(`https://equran.id/api/v2/surat/${nomorSurat}`)
+        this.selectedSurat = response.data.data
+      } catch (error) {
+        console.error('Error fetching detail surat:', error)
+      }
+    },
+
+    playAyat(audioSrc) {
+      if (this.currentAudio) {
+        this.currentAudio.pause()
+      }
+      this.currentAudio = new Audio(audioSrc)
+      this.currentAudio.play()
+    },
+  },
+}
+</script>
+
+<style>
+.surat-item {
+  cursor: pointer;
+  padding: 5px;
+}
+.arabic-text {
+  font-size: 24px;
+  font-family: 'Amiri', serif;
+}
+.play-button {
+  background-color: #28a745;
+  color: white;
+  margin-top: 2vh;
+  width: 5vh;
+  border: none;
+  padding: 8px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.play-button:hover {
+  background-color: #218838;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.active {
+  border: 1px solid white;
+  background-color: #28a745 !important; /* Warna hijau aktif */
+  color: white;
+  font-weight: bold;
+}
+</style>
