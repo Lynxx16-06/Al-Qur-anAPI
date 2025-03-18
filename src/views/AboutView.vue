@@ -111,11 +111,14 @@
     <!-- MOBILE SURAH -->
     <div
       v-if="IsSurah"
-      class="fixed w-full p-3 top-27 backdrop:blur-2xl"
+      class="fixed w-full p-3 top-25 backdrop:blur-2xl"
       data-aos="fade-up"
       data-aos-duration="500"
     >
       <div class="bg-white bg-border-100 md:hidden lg:hidden w-full lg:w-1/3 transition-all duration-300 text-black text-gray overflow-y-auto h-[83vh] lg:h-[80vh] rounded-2xl p-4 no-scrollbar">
+        <div class="" @click="openSurat">
+          <svg class="size-7 my-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M7.82843 10.9999H20V12.9999H7.82843L13.1924 18.3638L11.7782 19.778L4 11.9999L11.7782 4.22168L13.1924 5.63589L7.82843 10.9999Z"></path></svg>
+        </div>
         <div class="mb-4">
           <div class="items-center flex py-2 bg-gray-800 px-4 rounded-full border border-gray-600">
             <input
