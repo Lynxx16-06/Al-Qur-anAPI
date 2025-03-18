@@ -155,7 +155,7 @@
             :class="{active: selectedDoa === doa}"
             class="cursor-pointer p-3 bg-white shadow bg-gray-10 transition-all duration-300 rounded-2xl mb-2 hover:bg-green-700 hover:text-white"
           >
-            <strong>{{ index + 1 }}. {{ doa.title }}</strong>
+          <strong>{{ convertToArabic(index + 1) }}. {{ doa.title }}</strong>
           </li>
         </ul>
       </div>
