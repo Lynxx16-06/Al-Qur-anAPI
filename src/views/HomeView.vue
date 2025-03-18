@@ -29,17 +29,18 @@
       <div v-if="selectedSurat" class="w-full lg:w-2/3 bg-white shadow-2xl bg-border-100 transition-all duration-300 p-6 rounded-2xl">
         <div class="bg-green-500 p-4 rounded-xl">
           <h2 class="text-xl md:text-2xl text-white">
-            {{ selectedSurat.namaLatin }} - {{ selectedSurat.nama }} -
-            {{ selectedSurat.tempatTurun }}
+            {{ selectedSurat.namaLatin }} - {{ selectedSurat.nama }} - {{ selectedSurat.tempatTurun }}
           </h2>
+          <button @click="playAudio" class="bg-white text-green-700 px-4 py-2 rounded-xl mt-2">Play</button>
           <div class="flex flex-col sm:flex-row justify-between items-center mt-2 text-white">
             <span>{{ selectedSurat.jumlahAyat }} Ayat - {{ selectedSurat.arti }}</span>
-            <select v-model="selectedQari" class="bg-green-700 px-3 py-2 rounded-xl mt-2 sm:mt-0">
+            <select v-model="selectedQari" @change="updateAudioSource" class="bg-green-700 px-3 py-2 rounded-xl mt-2 sm:mt-0">
               <option v-for="(src, qari) in selectedSurat.audioFull" :key="qari" :value="qari">
                 {{ qariList[qari] || `Qari ${qari}` }}
               </option>
             </select>
           </div>
+          <audio ref="audioPlayer"></audio>
         </div>
         <div class="overflow-y-auto h-[60vh] no-scrollbar mt-4">
           <div v-for="ayat in selectedSurat.ayat" :key="ayat.nomorAyat" class="mb-4">
@@ -247,19 +248,33 @@ export default {
 
     async getSuratDetail(nomorSurat) {
       try {
-        const response = await axios.get(`https://equran.id/api/v2/surat/${nomorSurat}`)
-        this.selectedSurat = response.data.data
+        const response = await axios.get(`https://equran.id/api/v2/surat/${nomorSurat}`);
+        this.selectedSurat = response.data.data;
+        if (this.selectedSurat.audioFull) {
+          this.selectedQari = Object.keys(this.selectedSurat.audioFull)[0];
+          this.updateAudioSource();
+        }
       } catch (error) {
-        console.error('Error fetching detail surat:', error)
+        console.error('Error fetching detail surat:', error);
       }
     },
 
+    updateAudioSource() {
+      if (this.selectedSurat && this.selectedSurat.audioFull) {
+        this.$refs.audioPlayer.src = this.selectedSurat.audioFull[this.selectedQari];
+      }
+    },
+    playAudio() {
+      if (this.$refs.audioPlayer.src) {
+        this.$refs.audioPlayer.play();
+      }
+    },
     playAyat(audioSrc) {
       if (this.currentAudio) {
-        this.currentAudio.pause()
+        this.currentAudio.pause();
       }
-      this.currentAudio = new Audio(audioSrc)
-      this.currentAudio.play()
+      this.currentAudio = new Audio(audioSrc);
+      this.currentAudio.play();
     },
   },
 }
