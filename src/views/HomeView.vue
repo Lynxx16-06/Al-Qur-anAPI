@@ -40,10 +40,12 @@
           <div class="flex flex-col sm:flex-row justify-between items-center mt-2 text-white">
             <span>{{ selectedSurat.jumlahAyat }} Ayat - {{ selectedSurat.arti }}</span>
             <select v-model="selectedQari" @change="updateAudioSource" class="bg-green-700 px-3 py-2 rounded-xl mt-2 sm:mt-0">
-              <option v-for="(src, qari) in selectedSurat.audioFull" :key="qari" :value="qari">
+              <option value="">Pilih Qori</option> 
+              <option v-for="(src, qari) in selectedSurat?.audioFull" :key="qari" :value="qari">
                 {{ qariList[qari] || `Qari ${qari}` }}
               </option>
             </select>
+            <!-- <p>Selected Qari: {{ selectedQari }}</p> -->
           </div>
           <audio ref="audioPlayer"></audio>
         </div>
@@ -88,22 +90,13 @@
 
 
 
-      <div v-if="IsOpenDes && selectedSurat && selectedSurat.deskripsi" class="fixed lg:left-140 lg:top-60 w-full left-0 p-5">
+      <div v-if="IsOpenDes && selectedSurat && selectedSurat.deskripsi" class="fixed lg:left-140 lg:top-60 w-full lg:w-223 left-0 p-5">
         <div class="flex justify-between bg-gray-500 bg-border-100 rounded-t-2xl p-5 items-center transition-all duration-300">
           <h1 class="text-xl font-bold text-center text-white">{{ selectedSurat.namaLatin }}</h1>
           <svg @click="openDes" class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.5859 12L2.79297 4.20706L4.20718 2.79285L12.0001 10.5857L19.793 2.79285L21.2072 4.20706L13.4143 12L21.2072 19.7928L19.793 21.2071L12.0001 13.4142L4.20718 21.2071L2.79297 19.7928L10.5859 12Z"></path></svg>
         </div>
-        <div class="mb-4 bg-gray-10 bg-gray-300 rounded-b-2xl p-5 transition-all duration-300 overflow-y-auto h-[300px]">
-          <p v-html="selectedSurat.deskripsi" class="text-sm mb-5 text-gray text-justify w-full lg:w-200"></p>
-          <div class="flex justify-between items-center">
-            <button @click="playAudio" class="bg-white text-green-700 px-4 py-2 rounded-xl mt-2">Play</button>
-            <select v-model="selectedQari" @change="updateAudioSource" class="bg-green-700 px-3 py-2 rounded-xl mt-2 sm:mt-0">
-                <option v-for="(src, qari) in selectedSurat.audioFull" :key="qari" :value="qari">
-                  {{ qariList[qari] || `Qari ${qari}` }}
-                </option>
-            </select>
-            <audio ref="audioPlayer"></audio>
-          </div>
+        <div class=" bg-gray-10 bg-gray-300 rounded-b-2xl p-5 transition-all duration-300 overflow-y-auto h-[300px] md:h-50">
+          <p v-html="selectedSurat.deskripsi" class="text-sm text-gray text-justify w-full lg:w-200"></p>
         </div>
       </div>
     </section>
@@ -198,13 +191,14 @@ export default {
     return {
       quran: [],
       selectedSurat: null,
-      selectedQari: '01',
+      selectedQari: '',
       currentAudio: null,
       IsSurah: false,
       IsOpenDes: false,
       localSearchQuery: '',
       selectedSurah: null,
       qariList: {
+        '00': 'Pilih Qari',
         '01': 'Abdullah Al-Juhany',
         '02': 'Abdul-Muhsin Al-Qasim',
         '03': 'Abdurrahman As-Sudais',
@@ -234,7 +228,17 @@ export default {
       handler(newVal) {
         this.localSearchQuery = newVal;
       }
-    }
+    },
+    "selectedSurat.audioFull": {
+    immediate: true, // Jalankan saat data pertama kali dimuat
+    handler(newAudioFull) {
+      if (newAudioFull && Object.keys(newAudioFull).length > 0) {
+        this.selectedQari = Object.keys(newAudioFull)[0]; // Ambil key pertama
+      } else {
+        this.selectedQari = ""; // Reset ke kosong jika tidak ada data
+      }
+    },
+  },
   },
   mounted() {
     this.getAllSurat();
@@ -284,12 +288,16 @@ export default {
     async getSuratDetail(nomorSurat) {
       try {
         const response = await axios.get(`https://equran.id/api/v2/surat/${nomorSurat}`);
-        console.log(response.data.data); // Debugging
         this.selectedSurat = response.data.data;
+
+        // Jangan langsung pilih qari pertama, biarkan tetap kosong
+        this.selectedQari = ""; 
       } catch (error) {
-        console.error('Error fetching detail surat:', error);
+        console.error("Error fetching detail surat:", error);
       }
     },
+
+
 
     updateAudioSource() {
       if (this.selectedSurat && this.selectedSurat.audioFull) {
