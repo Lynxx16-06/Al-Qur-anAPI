@@ -75,7 +75,7 @@
       </div>
 
       <!-- Jika tidak ada doa yang dipilih -->
-      <div v-else class="text-center w-full md:w-100 lg:w-100 text-black text-gray">
+      <!-- <div v-else class="text-center w-full md:w-100 lg:w-100 text-black text-gray">
         <div>
           <h1 class="text-center text-3xl py-5">Hallo Selamat Datang!</h1>
           <h1 class="md:hidden text-center text-2xl py-5">Qur'anLynxx</h1>
@@ -84,7 +84,7 @@
             <img src="../assets/img/logoquran2.png" class="md:hidden w-200" alt="" data-aos="zoom-in" data-aos-duration="900">
           </div>
         </div>
-      </div>
+      </div> -->
     </section>
 
     <!-- Footer -->
