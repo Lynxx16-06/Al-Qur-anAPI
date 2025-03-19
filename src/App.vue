@@ -130,7 +130,7 @@
 
 
             <!-- CS -->
-          <div v-if="IsCS" class="fixed -mt-30 w-full p-5">
+          <div v-if="IsCS" class="fixed -mt-30 w-full p-5" data-aos="zoom-in" data-aos-duration="500">
             <div class="bg-border-100 bg-white shadow-2xl p-5 rounded-2xl">
               <svg @click="toggleOpenCS" class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.5859 12L2.79297 4.20706L4.20718 2.79285L12.0001 10.5857L19.793 2.79285L21.2072 4.20706L13.4143 12L21.2072 19.7928L19.793 21.2071L12.0001 13.4142L4.20718 21.2071L2.79297 19.7928L10.5859 12Z"></path></svg>
               <h1 class="text-center text-2xl my-5">Ada yang perlu ditanyakan?</h1>

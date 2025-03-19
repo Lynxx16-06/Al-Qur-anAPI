@@ -90,14 +90,15 @@
       </div>
 
 
-      <div v-if="Peringatan" class="fixed left-0 p-5 w-full" data-aos="zoom-in" data-aos-duration="600">
+      <div v-if="Peringatan" class="fixed left-0 p-5 w-full" data-aos="zoom-in" data-aos-duration="800">
         <div class="bg-white bg-border-100 p-5 rounded-lg shadow-lg w-full">
-        <div class="py-2 flex justify-end">
+        <div class="py-2 flex justify-between">
+          <h1 class="text-2xl text-red-500">Warning</h1>
           <svg @click="togglePeringatan" class="size-5 cursor-pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
             <path d="M10.5859 12L2.79297 4.20706L4.20718 2.79285L12.0001 10.5857L19.793 2.79285L21.2072 4.20706L13.4143 12L21.2072 19.7928L19.793 21.2071L12.0001 13.4142L4.20718 21.2071L2.79297 19.7928L10.5859 12Z"></path>
           </svg>
         </div>
-  
+        
           <div class="">
             <h1>Hallo, saya Ilham Yuniar Pembuat Qur'anLynxx</h1>
             <p class="text-justify">Jika ada bug atau error, bisa ditanyakan di CS Qur'anLynxx.</p>
@@ -133,7 +134,7 @@
 
     <div class="fixed md:hidden lg:hidden bottom-5 left-6 z-50">
       <button class="bg-green-500 p-4 rounded-full" @click="openSurat">
-        <svg v-if="openYa"
+        <svg 
           xmlns="http://www.w3.org/2000/svg"
           width="25"
           height="25"
@@ -144,7 +145,7 @@
             d="M19 10H5c-1.103 0-2 .897-2 2v8c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2v-8c0-1.103-.897-2-2-2zM5 6h14v2H5zm2-4h10v2H7z"
           ></path>
         </svg>
-        <svg v-else="" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);"><path d="M16.293 9.293 12 13.586 7.707 9.293l-1.414 1.414L12 16.414l5.707-5.707z"></path></svg>
+        <!-- <svg v-else="" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);"><path d="M16.293 9.293 12 13.586 7.707 9.293l-1.414 1.414L12 16.414l5.707-5.707z"></path></svg> -->
       </button>
     </div>
 
@@ -222,7 +223,6 @@ export default {
       currentAudio: null,
       IsSurah: false,
       Peringatan: true,
-      openYa: true,
       IsOpenDes: false,
       localSearchQuery: '',
       selectedSurah: null,
@@ -312,8 +312,7 @@ export default {
       this.IsSurah = false; // Tutup mobile surah setelah pilih
     },
     openSurat() {
-      this.IsSurah = !this.IsSurah
-      this.openYa = !this.openYa;
+      this.IsSurah = !this.IsSurah;
     },
     async getAllSurat() {
       try {
