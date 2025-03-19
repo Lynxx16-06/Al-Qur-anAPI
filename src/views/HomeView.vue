@@ -90,7 +90,7 @@
       </div>
 
 
-      <div v-if="Peringatan" class="fixed left-0 p-5 w-full" data-aos="zoom-in" data-aos-duration="800">
+      <div v-if="Peringatan" class="fixed left-0 p-5 md:w-150 md:left-160 w-full" data-aos="zoom-in" data-aos-duration="800">
         <div class="bg-white bg-border-100 p-5 rounded-lg shadow-lg w-full">
         <div class="py-2 flex justify-between">
           <h1 class="text-2xl text-red-500">Warning</h1>
