@@ -75,6 +75,7 @@
           </div>
         </div>
       </div>
+      
 
       <!-- Jika tidak ada surat yang dipilih -->
       <div v-else class=" text-center w-full md:w-100 lg:w-100">
@@ -88,6 +89,30 @@
         </div>
       </div>
 
+
+      <div v-if="Peringatan" class="fixed left-0 p-5 w-full" data-aos="zoom-in" data-aos-duration="600">
+        <div class="bg-white bg-border-100 p-5 rounded-lg shadow-lg w-full">
+        <div class="py-2 flex justify-end">
+          <svg @click="togglePeringatan" class="size-5 cursor-pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M10.5859 12L2.79297 4.20706L4.20718 2.79285L12.0001 10.5857L19.793 2.79285L21.2072 4.20706L13.4143 12L21.2072 19.7928L19.793 21.2071L12.0001 13.4142L4.20718 21.2071L2.79297 19.7928L10.5859 12Z"></path>
+          </svg>
+        </div>
+  
+          <div class="">
+            <h1>Hallo, saya Ilham Yuniar Pembuat Qur'anLynxx</h1>
+            <p class="text-justify">Jika ada bug atau error, bisa ditanyakan di CS Qur'anLynxx.</p>
+          </div>
+        
+          <div class="flex gap-2 mt-3">
+            <input type="checkbox" id="toggle" v-model="toggle" />
+            <label for="toggle">Setuju untuk dipahami</label>
+          </div>
+        
+          <button @click="setujuiPeringatan" class="bg-green-500 text-white px-4 py-2 rounded-lg mt-3">
+            Oke, Saya Paham
+          </button>
+        </div>
+      </div>
 
 
       <div v-if="IsOpenDes && selectedSurat && selectedSurat.deskripsi" class="fixed lg:left-140 lg:top-60 w-full lg:w-223 left-0 p-5">
@@ -193,8 +218,10 @@ export default {
       quran: [],
       selectedSurat: null,
       selectedQari: '',
+      toggle: false,
       currentAudio: null,
       IsSurah: false,
+      Peringatan: true,
       openYa: true,
       IsOpenDes: false,
       localSearchQuery: '',
@@ -252,8 +279,22 @@ export default {
       // Emit ke parent untuk menyinkronkan
       this.$emit('update-search', savedSearch);
     }
+    if (localStorage.getItem("peringatan_disetujui") === "true") {
+      this.Peringatan = false; // Jangan tampilkan lagi
+    }
   },
   methods: {
+    setujuiPeringatan() {
+      if (this.toggle) {
+        localStorage.setItem("peringatan_disetujui", "true"); // Simpan di localStorage
+        this.Peringatan = false; // Sembunyikan peringatan
+      } else {
+        alert("Harap centang 'Memahami' terlebih dahulu!");
+      }
+    },
+    togglePeringatan() {
+      this.Peringatan = false
+    },
     convertToArabic(number) {
       return number.toString().replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
     },
