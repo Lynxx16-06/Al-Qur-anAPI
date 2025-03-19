@@ -59,7 +59,7 @@
               <h1 class="my-5">Artinya:</h1>
               <p>{{ ayat.teksIndonesia }}</p>
               <div class="flex gap-5">
-                <button @click="playAyat(ayat.audio[selectedQari])" class="play-button">
+                <button @click="playAyat(ayat.audio[selectedQari])" class="bg-green-400 p-2 rounded-xl my-3">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -108,7 +108,7 @@
 
     <div class="fixed md:hidden lg:hidden bottom-5 left-6 z-50">
       <button class="bg-green-500 p-4 rounded-full" @click="openSurat">
-        <svg
+        <svg v-if="openYa"
           xmlns="http://www.w3.org/2000/svg"
           width="25"
           height="25"
@@ -119,6 +119,7 @@
             d="M19 10H5c-1.103 0-2 .897-2 2v8c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2v-8c0-1.103-.897-2-2-2zM5 6h14v2H5zm2-4h10v2H7z"
           ></path>
         </svg>
+        <svg v-else="" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);"><path d="M16.293 9.293 12 13.586 7.707 9.293l-1.414 1.414L12 16.414l5.707-5.707z"></path></svg>
       </button>
     </div>
 
@@ -194,6 +195,7 @@ export default {
       selectedQari: '',
       currentAudio: null,
       IsSurah: false,
+      openYa: true,
       IsOpenDes: false,
       localSearchQuery: '',
       selectedSurah: null,
@@ -270,6 +272,7 @@ export default {
     },
     openSurat() {
       this.IsSurah = !this.IsSurah
+      this.openYa = !this.openYa;
     },
     async getAllSurat() {
       try {
