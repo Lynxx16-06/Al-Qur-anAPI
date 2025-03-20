@@ -278,6 +278,12 @@ export default {
   },
   },
   mounted() {
+    if (this.selectedSurat?.audioFull) {
+      const firstQari = Object.keys(this.selectedSurat.audioFull)[0];
+      if (firstQari) {
+        this.selectedQari = firstQari;
+      }
+    }
     this.getAllSurat();
     
     const savedSearch = localStorage.getItem("searchQuery");
@@ -350,9 +356,12 @@ export default {
       }
     },
     playAudio() {
-      if (this.$refs.audioPlayer.src) {
-        this.$refs.audioPlayer.play();
+      if (!this.selectedQari) {
+        alert("Pilih Qari terlebih dahulu!");
+        return;
       }
+      this.$refs.audioPlayer.src = this.selectedSurat.audioFull[this.selectedQari];
+      this.$refs.audioPlayer.play();
     },
     playAyat(audioSrc) {
       if (this.currentAudio) {
