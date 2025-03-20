@@ -103,9 +103,9 @@
               </div>
             </div>
             <div class="flex flex-col items-end p-5 gap-5">
-              <a href="/" class="hover:text-gray-300 sm:block">Beranda</a>
-              <a href="/doa" class="hover:text-gray-300 sm:block">Doa</a>
-              <a @click="setting" class="">Setting</a>
+              <a href="/" class="hover:text-gray-300 sm:block font-bold" @click="activeNabar1(index)" :class="[active1 === index ? 'text-green-500' : 'text-white'  ]" >Beranda</a>
+              <a href="/doa" class="hover:text-gray-300 sm:block font-bold" @click="activeNabar(index)" :class="[active === index ? 'text-green-500' : 'text-white'  ]">Doa</a>
+              <a @click="setting" class="font-bold">Setting</a>
               <div class="items-center justify-between flex py-2 bg-gray-800 px-7 rounded-full border md:flex w-full border-gray-600">
                 <input
                   class="bg-transparent outline-none text-white placeholder-gray-400 w-full sm:w-40"
@@ -233,6 +233,8 @@ export default {
     return {
       navbarOpen: false,
       sidebarOpen: false,
+      active: null,
+      active1: null,
       IsCS: false,
       nama: "",
       laporan: "",
@@ -261,6 +263,12 @@ export default {
     });
   },
   methods: {
+    activeNabar(index) {
+      this.active === index ? this.active = null : this.active = index;
+    },
+    activeNabar1(index) {
+      this.active1 === index ? this.active1 = null : this.active1 = index;
+    },
     toggleKirimEmail() {
       this.kirimViaEmail = !this.kirimViaEmail;
     },
