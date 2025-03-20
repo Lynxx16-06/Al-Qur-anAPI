@@ -160,7 +160,7 @@
                 
                   <!-- Input Email (Selalu Muncul dengan Catatan) -->
                   <div>
-                    <label>Email Anda <span class="text-red-500">(Khusus pengiriman lewat email)</span></label>
+                    <label>Email Anda <span class="text-red-500">(Tidak Wajib)</span></label>
                     <input type="email" v-model="email" placeholder="Masukkan Email Anda" class="p-2 outline-none border rounded-xl w-full" required>
                   </div>
                 
@@ -282,10 +282,10 @@ export default {
     },
     // Kirim ke Email
     kirimEmail() {
-      if (!this.email) {
-        alert("Silakan masukkan email terlebih dahulu!");
-        return;
-      }
+      // if (!this.email) {
+      //   alert("Silakan masukkan email terlebih dahulu!");
+      //   return;
+      // }
 
       const templateParams = {
         nama: this.nama,
