@@ -136,7 +136,7 @@
 
     <!-- Footer -->
     <footer class="fixed bottom-0 w-full bg-white text-black bg-border-100 text-gray transition-all duration-300 text-center py-2">
-      <p>Copyright 2023</p>
+      <p>Copyright 2025</p>
     </footer>
 
     <div class="fixed md:hidden lg:hidden bottom-5 left-6 z-50">
