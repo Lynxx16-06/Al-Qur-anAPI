@@ -79,12 +79,19 @@
 
       <!-- Jika tidak ada surat yang dipilih -->
       <div v-else class=" text-center w-full md:w-100 lg:w-100">
+        <!-- <video autoplay loop muted src="../assets/img/animasi.gif"></video> -->
+        <img class="-mt-15 md:hidden object-cover w-full" src="../assets/img/ramadanbaru.png" alt="">
         <div>
-          <h1 class=" text-center text-3xl py-5">Hallo Selamat Datang!</h1>
-          <h1 class="md:hidden text-center text-2xl py-5">Qur'anLynxx</h1>
+          <h1 class="md:hidden text-center text-3xl font-bold py-1">Qur'anLynxx</h1>
           <div>
             <p class="text-justify md:w-200 hidden">Assalamu'alaikum! Selamat datang di Qur'anLynxx. 'Dan sesungguhnya telah Kami mudahkan Al-Qur'an untuk pelajaran, maka adakah orang yang mau mengambil pelajaran?' (QS. Al-Qamar: 17). Mari mendekatkan diri kepada Allah melalui kalam-Nya.</p>
             <img src="../assets/img/logoquran2.png" class="md:hidden w-200" alt="" data-aos="zoom-in" data-aos-duration="900">
+            <h1 class=" text-center text-3xl py-1 font-light">Hallo Selamat Datang!</h1>
+            <div class="md:hidden">
+              <p>Selamat Hari Raya Idul Fitri</p>
+              <p>1446 Hijriah</p>
+              <!-- <p>Mohon Maaf Lahir dan Batin, Semoga Allah SWT Menerima Amal Ibadah Kita</p> -->
+            </div>
           </div>
         </div>
       </div>
@@ -204,7 +211,7 @@
 
 <script>
 import axios from 'axios'
-
+import { DotLottieVue } from '@lottiefiles/dotlottie-vue'
 export default {
   props: {
     sidebarOpen: Boolean,
@@ -214,6 +221,7 @@ export default {
       default: ''
     }
   },
+  components: { DotLottieVue },
   data() {
     return {
       quran: [],
@@ -272,22 +280,20 @@ export default {
   mounted() {
     this.getAllSurat();
     
-    // Cek apakah ada searchQuery tersimpan di localStorage
     const savedSearch = localStorage.getItem("searchQuery");
     if (savedSearch) {
       this.localSearchQuery = savedSearch;
-      // Emit ke parent untuk menyinkronkan
       this.$emit('update-search', savedSearch);
     }
     if (localStorage.getItem("peringatan_disetujui") === "true") {
-      this.Peringatan = false; // Jangan tampilkan lagi
+      this.Peringatan = false;
     }
   },
   methods: {
     setujuiPeringatan() {
       if (this.toggle) {
-        localStorage.setItem("peringatan_disetujui", "true"); // Simpan di localStorage
-        this.Peringatan = false; // Sembunyikan peringatan
+        localStorage.setItem("peringatan_disetujui", "true");
+        this.Peringatan = false; 
       } else {
         alert("Harap centang 'Memahami' terlebih dahulu!");
       }
@@ -302,7 +308,6 @@ export default {
       this.IsOpenDes = !this.IsOpenDes;
     },
     updateParentSearch() {
-      // Emit event ke parent untuk update search di navbar utama
       this.$emit('update-search', this.localSearchQuery);
       localStorage.setItem("searchQuery", this.localSearchQuery);
     },
@@ -318,10 +323,7 @@ export default {
       try {
         const response = await axios.get('https://equran.id/api/v2/surat')
         this.quran = response.data.data
-        
-        // Auto-scroll ke hasil pencarian jika ada query saat load
         if (this.localSearchQuery && this.filteredSurat.length > 0) {
-          // Bisa tambahkan logika untuk auto-scroll di sini jika diperlukan
         }
       } catch (error) {
         console.error('Error fetching daftar surat:', error)
@@ -397,4 +399,8 @@ export default {
   color: white;
   font-weight: bold;
 }
+
+ video {
+    mix-blend-mode: multiply;
+  }
 </style>
