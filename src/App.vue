@@ -108,7 +108,7 @@
               <a @click="setting" class="">Setting</a>
               <div class="items-center justify-between flex py-2 bg-gray-800 px-7 rounded-full border md:flex w-full border-gray-600">
                 <input
-                  class="bg-transparent outline-none text-white placeholder-gray-400  sm:w-40"
+                  class="bg-transparent outline-none text-white placeholder-gray-400 w-full sm:w-40"
                   type="text"
                   placeholder="Cari Surat..."
                   v-model="searchQuery"
