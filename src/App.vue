@@ -103,8 +103,8 @@
               </div>
             </div>
             <div class="flex flex-col items-end p-5 gap-5">
-              <a href="/" class="hover:text-gray-300 sm:block font-bold" @click="activeNabar1(index)" :class="[active1 === index ? 'text-green-500' : 'text-white'  ]" >Beranda</a>
-              <a href="/doa" class="hover:text-gray-300 sm:block font-bold" @click="activeNabar(index)" :class="[active === index ? 'text-green-500' : 'text-white'  ]">Doa</a>
+              <a href="/" class="hover:text-gray-300 sm:block font-bold" @click="activeNabar1(index)" :class="[active1 === index ? 'text-green-500' : 'text-black text-gray'  ]" >Beranda</a>
+              <a href="/doa" class="hover:text-gray-300 sm:block font-bold" @click="activeNabar(index)" :class="[active === index ? 'text-green-500' : 'text-black text-gray'  ]">Doa</a>
               <a @click="setting" class="font-bold">Setting</a>
               <div class="items-center justify-between flex py-2 bg-gray-800 px-7 rounded-full border md:flex w-full border-gray-600">
                 <input
