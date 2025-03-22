@@ -96,7 +96,7 @@
                   <div class="p-4 bg-gray-100 rounded-lg shadow bg-gray-10">
                     <label class="block text-sm font-medium mb-1">Pilih Bahasa Terjemahan</label>
                     <select v-model="selectedLanguage" class="w-full p-2 border rounded">
-                      <option v-for="(lang, index) in languages" :key="index" :value="lang.value">
+                      <option class="text-black" v-for="(lang, index) in languages" :key="index" :value="lang.value">
                         {{ lang.label }}
                       </option>
                     </select>
@@ -177,7 +177,7 @@
       </div>
 
 
-      <div v-if="Peringatan" class="fixed left-0 p-5 lg:px-150 xl:left-0  w-full" data-aos="zoom-in" data-aos-duration="800">
+      <div v-if="Peringatan" class="fixed left-0 p-5 xl:left-0  w-full" data-aos="zoom-in" data-aos-duration="800">
         <div class="bg-white bg-border-100 p-5 rounded-lg shadow-lg w-full">
         <div class="py-2 flex justify-between">
           <h1 class="text-2xl text-red-500">Warning</h1>
@@ -331,9 +331,7 @@ export default {
       },
       languages: [
         { value: "id", label: "Bahasa Indonesia" },
-        { value: "en", label: "English" },
         { value: "ar", label: "العربية" },
-        { value: "zh", label: "中文" }
       ]
     }
   },
