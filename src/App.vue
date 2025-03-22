@@ -44,7 +44,7 @@
       </div>
 
       <div>
-        <button class="md:hidden" @click="toggleNavbar">
+        <button class="lg:hidden md:hidden sm:hidden" @click="toggleNavbar">
           <svg class="fill-blue-900" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style=""><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path></svg>
         </button>
       </div>
@@ -186,7 +186,7 @@
 
       <button
         @click="toggleDarkMode"
-        class="md:p-2 md:rounded-full md:bg-gray-200 md:dark:bg-gray-800 md:fixed md:z-50 md:top-5  md:right-20 hidden md:block md:cursor-pointer md:text-black md:dark:text-white md:shadow-lg md:hover:bg-gray-300 md:dark:hover:bg-gray-700 md:transition z-50 md:w-9 right-3 md:border-0 border rounded-full p-2 top-2 shadow-2xl"
+        class="md:p-2 md:rounded-full md:bg-gray-200 md:dark:bg-gray-800 md:fixed md:z-50 md:top-5  md:right-20 sm:flex sm:items-center hidden md:block md:cursor-pointer md:text-black md:dark:text-white md:shadow-lg md:hover:bg-gray-300 md:dark:hover:bg-gray-700 md:transition z-50 md:w-9 right-3 md:border-0 border rounded-full p-2 top-2 shadow-2xl"
       >
         <svg
           v-if="isDark"

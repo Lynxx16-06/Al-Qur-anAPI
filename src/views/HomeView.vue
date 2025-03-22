@@ -177,7 +177,7 @@
       </div>
 
 
-      <div v-if="Peringatan" class="fixed left-0 p-5 md:w-150 md:left-160 w-full" data-aos="zoom-in" data-aos-duration="800">
+      <div v-if="Peringatan" class="fixed left-0 p-5 lg:w-150 lg:left-160 w-full" data-aos="zoom-in" data-aos-duration="800">
         <div class="bg-white bg-border-100 p-5 rounded-lg shadow-lg w-full">
         <div class="py-2 flex justify-between">
           <h1 class="text-2xl text-red-500">Warning</h1>
@@ -312,7 +312,7 @@ export default {
       isLatin: false,
       isTranslationOn: false,
       selectedLanguage: "id",
-      hideLatin: false,  // Latin SELALU ADA kecuali disembunyikan
+      hideLatin: false, 
       hideTranslation: false,
       toggle: false,
       currentAudio: null,
@@ -404,7 +404,7 @@ export default {
         localStorage.setItem("peringatan_disetujui", "true");
         this.Peringatan = false; 
       } else {
-        alert("Harap centang 'Memahami' terlebih dahulu!");
+        alert("Harap centang terlebih dahulu!");
       }
     },
     togglePeringatan() {
