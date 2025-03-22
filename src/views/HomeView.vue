@@ -177,7 +177,7 @@
       </div>
 
 
-      <div v-if="Peringatan" class="fixed left-0 p-5 lg:w-150 lg:left-160 w-full" data-aos="zoom-in" data-aos-duration="800">
+      <div v-if="Peringatan" class="fixed left-0 p-5 lg:px-150 xl:left-0  w-full" data-aos="zoom-in" data-aos-duration="800">
         <div class="bg-white bg-border-100 p-5 rounded-lg shadow-lg w-full">
         <div class="py-2 flex justify-between">
           <h1 class="text-2xl text-red-500">Warning</h1>
@@ -188,7 +188,7 @@
         
           <div class="">
             <h1>Hallo, saya Ilham Yuniar Pembuat Qur'anLynxx</h1>
-            <p class="text-justify">Jika ada bug atau error, bisa ditanyakan di CS Qur'anLynxx.</p>
+            <p class="">Jika ada bug atau error, bisa ditanyakan di CS Qur'anLynxx.</p>
           </div>
         
           <div class="flex gap-2 mt-3">
@@ -384,9 +384,9 @@ export default {
       this.localSearchQuery = savedSearch;
       this.$emit('update-search', savedSearch);
     }
-    if (localStorage.getItem("peringatan_disetujui") === "true") {
-      this.Peringatan = false;
-    }
+    // if (localStorage.getItem("peringatan_disetujui") === "true") {
+    //   this.Peringatan = false;
+    // }
   },
   methods: {
     getTranslation(ayat) {
