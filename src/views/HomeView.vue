@@ -402,6 +402,7 @@
 <script>
 import axios from 'axios'
 import { DotLottieVue } from '@lottiefiles/dotlottie-vue'
+import Swal from 'sweetalert2';
 export default {
   props: {
     sidebarOpen: Boolean,
@@ -550,6 +551,13 @@ toggleBookmark(ayat) {
       teksLatin: ayat.teksLatin,
       timestamp: Date.now()
     });
+    // alert('Disimpan')
+    Swal.fire({
+      title: 'Berhasil!',
+      text: 'Ayat telah disimpan ke bookmark',
+      icon: 'success',
+      confirmButtonText: 'Oke'
+    })
     console.log("Added new bookmark");
   } else {
     updatedBookmarks.splice(existingBookmarkIndex, 1);
