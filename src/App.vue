@@ -103,28 +103,37 @@
               </div>
             </div>
             <div class="flex flex-col items-end p-5 gap-5">
-              <a href="/" class="hover:text-gray-300 sm:block font-bold" @click="activeNabar1(index)" :class="[active1 === index ? 'text-green-500' : 'text-black text-gray'  ]" >Beranda</a>
-              <a href="/doa" class="hover:text-gray-300 sm:block font-bold" @click="activeNabar(index)" :class="[active === index ? 'text-green-500' : 'text-black text-gray'  ]">Doa</a>
-              <a @click="setting" class="font-bold">Setting</a>
-              <div class="items-center justify-between flex py-2 bg-gray-800 px-7 rounded-full border md:flex w-full border-gray-600">
-                <input
+              <a href="/" class="hover:text-gray-300 sm:block font-bold" @click="activeNabar1(index)" :class="[active1 === index ? 'text-green-500' : 'text-black text-gray'  ]" >{{ $t('menu1') }}</a>
+              <a href="/doa" class="hover:text-gray-300 sm:block font-bold" @click="activeNabar(index)" :class="[active === index ? 'text-green-500' : 'text-black text-gray'  ]">{{ $t('menu2') }}</a>
+              <a @click="setting" class="font-bold">{{ $t('menu3') }}</a>
+              <div class="items-center justify-between flex flex-row-reverse py-2 gap-5 md:flex ">
+                <!-- <input
                   class="bg-transparent outline-none text-white placeholder-gray-400 w-full sm:w-40"
                   type="text"
                   placeholder="Cari Surat..."
                   v-model="searchQuery"
                   @input="handleSearchInput"
-                />
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  class="text-white"
-                >
-                  <path
-                    d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z"
-                  ></path>
-                </svg>
+                /> -->
+                <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"></path></svg>
+                <div class="relative inline-block text-left">
+                  <!-- Button untuk membuka dropdown -->
+                  <button @click="toggleDropdown" class="flex items-center gap-2 p-2 border rounded-lg">
+                    <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM9.71002 19.6674C8.74743 17.6259 8.15732 15.3742 8.02731 13H4.06189C4.458 16.1765 6.71639 18.7747 9.71002 19.6674ZM10.0307 13C10.1811 15.4388 10.8778 17.7297 12 19.752C13.1222 17.7297 13.8189 15.4388 13.9693 13H10.0307ZM19.9381 13H15.9727C15.8427 15.3742 15.2526 17.6259 14.29 19.6674C17.2836 18.7747 19.542 16.1765 19.9381 13ZM4.06189 11H8.02731C8.15732 8.62577 8.74743 6.37407 9.71002 4.33256C6.71639 5.22533 4.458 7.8235 4.06189 11ZM10.0307 11H13.9693C13.8189 8.56122 13.1222 6.27025 12 4.24799C10.8778 6.27025 10.1811 8.56122 10.0307 11ZM14.29 4.33256C15.2526 6.37407 15.8427 8.62577 15.9727 11H19.9381C19.542 7.8235 17.2836 5.22533 14.29 4.33256Z"></path>
+                    </svg>
+                    <span>{{ getCurrentLanguage }}</span>
+                  </button>
+                
+                  <!-- Dropdown menu -->
+                  <div v-if="isOpen" class="absolute right-0 mt-2 w-40 bg-white bg-border-100 text-gray text-black border rounded-lg shadow-lg">
+                    <button @click="changeLanguage('id')" class="block w-full px-4 py-2 text-left hover:bg-gray-100">
+                      🇮🇩 Indonesia
+                    </button>
+                    <button @click="changeLanguage('en')" class="block w-full px-4 py-2 text-left hover:bg-gray-100">
+                      🇬🇧 English
+                    </button>
+                  </div>
+              </div>
               </div>
             </div>
 
@@ -135,33 +144,33 @@
                 <svg @click="toggleOpenCS" class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M10.5859 12L2.79297 4.20706L4.20718 2.79285L12.0001 10.5857L19.793 2.79285L21.2072 4.20706L13.4143 12L21.2072 19.7928L19.793 21.2071L12.0001 13.4142L4.20718 21.2071L2.79297 19.7928L10.5859 12Z"></path>
                 </svg>
-                <h1 class="text-center text-2xl my-5">Ada yang perlu ditanyakan?</h1>
+                <h1 class="text-center text-2xl my-5">{{ $t('text1')}}</h1>
                 <form @submit.prevent class="flex flex-col gap-4">
-                  <label>Nama</label>
-                  <input type="text" v-model="nama" placeholder="Nama Anda" required class="p-2 outline-none border rounded-xl">
+                  <label>{{ $t('text2') }}</label>
+                  <input type="text" v-model="nama" :placeholder="$t('text2')" required class="p-2 outline-none border rounded-xl">
                 
-                  <label>Pilih Laporan</label>
+                  <label>{{ $t('text3') }}</label>
                   <div class="flex gap-5">
                     <div class="gap-2 flex">
                       <input type="radio" v-model="laporan" value="Saran" required>
-                      <label>Saran</label>
+                      <label>{{ $t('select.saran') }}</label>
                     </div>
                     <div class="gap-2 flex">
                       <input type="radio" v-model="laporan" value="Kritik" required>
-                      <label>Kritik</label>
+                      <label>{{ $t('select.kritik') }}</label>
                     </div>
                     <div class="gap-2 flex">
                       <input type="radio" v-model="laporan" value="Pertanyaan" required>
-                      <label>Pertanyaan</label>
+                      <label>{{ $t('select.pertanyaan') }}</label>
                     </div>
                   </div>
                 
-                  <textarea v-model="saran" maxlength="255" placeholder="Max 255 karakter" required class="resize-none h-30 outline-none border rounded-xl"></textarea>
+                  <textarea v-model="saran" maxlength="255" :placeholder="$t('placeholder.laporan')" required class="resize-none h-30 outline-none border rounded-xl"></textarea>
                 
                   <!-- Input Email (Selalu Muncul dengan Catatan) -->
                   <div>
-                    <label>Email Anda <span class="text-red-500">(Tidak Wajib)</span></label>
-                    <input type="email" v-model="email" placeholder="Masukkan Email Anda" class="p-2 outline-none border rounded-xl w-full" required>
+                    <label>{{ $t('text4') }}<span class="text-red-500">({{ $t('text5') }})</span></label>
+                    <input type="email" v-model="email" :placeholder="$t('placeholder.email')" class="p-2 outline-none border rounded-xl w-full" required>
                   </div>
                 
                   <!-- Tombol Pilihan Kirim -->
@@ -172,7 +181,7 @@
                     </button> -->
                     <button @click="kirimEmail" class="bg-green-400 p-3 text-center justify-center rounded-xl text-black hover:text-white hover:bg-blue-300 w-full flex items-center gap-2 text-lg">
                       <!-- <svg class="size-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3C21.5523 3 22 3.44772 22 4V20.0066C22 20.5552 21.5447 21 21.0082 21H2.9918C2.44405 21 2 20.5551 2 20.0066V19H20V7.3L12 14.5L2 5.5V4C2 3.44772 2.44772 3 3 3H21ZM8 15V17H0V15H8ZM5 10V12H0V10H5ZM19.5659 5H4.43414L12 11.8093L19.5659 5Z"></path></svg> -->
-                      Kirim
+                      {{ $t('kirim') }}
                     </button>
                   </div>
                 </form>
@@ -238,6 +247,7 @@ export default {
       sidebarOpen: false,
       active: null,
       active1: null,
+      isOpen: false,
       IsCS: false,
       nama: "",
       laporan: "",
@@ -265,7 +275,20 @@ export default {
       next();
     });
   },
+
+  computed: {
+    getCurrentLanguage() {
+      return this.$i18n.locale === 'id' ? '🇮🇩 Indonesia' : '🇬🇧 English';
+    }
+  },
   methods: {
+    toggleDropdown() {
+      this.isOpen = !this.isOpen;
+    },
+    changeLanguage(lang) {
+      this.$i18n.locale = lang;
+      this.isOpen = false; // Tutup dropdown setelah memilih
+    },
     activeNabar(index) {
       this.active === index ? this.active = null : this.active = index;
     },

@@ -1,0 +1,35 @@
+{
+    "menu1" : "Beranda",
+    "menu2" : "Doa",
+    "menu3" : "Setting",
+
+    "ucapan" : "Hallo Selamat Datang",
+    "ucapan2" : "Selamat Hari Raya Idul Fitri",
+    "ucapan3" : "1446 Hijriah",
+
+    "text1" : "Ada yang perlu ditanyakan",
+    "text2" : "Nama",
+    "text3" : "Pilih Laporan",
+    "text4" : "Email Anda",
+    "text5" : "Tidak Wajib",
+
+    "select": {
+        "saran" : "Saran",
+        "kritik" : "Kritik",
+        "pertanyaan" : "Pertanyaan"
+    },
+
+    "placeholder": {
+        "nama" : "Masukkan Nama Anda",
+        "laporan" : "Max 255",
+        "email" : "Masukkan Email Anda"
+    },
+
+    "kirim" : "Kirim",
+
+
+    "cari" : "Cari Surat",
+    "cari2" : "Cari Doa"
+}
+
+

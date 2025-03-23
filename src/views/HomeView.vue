@@ -175,10 +175,10 @@
           <div>
             <p class="text-justify md:w-200 hidden">Assalamu'alaikum! Selamat datang di Qur'anLynxx. 'Dan sesungguhnya telah Kami mudahkan Al-Qur'an untuk pelajaran, maka adakah orang yang mau mengambil pelajaran?' (QS. Al-Qamar: 17). Mari mendekatkan diri kepada Allah melalui kalam-Nya.</p>
             <img src="../assets/img/logoquran2.png" class="md:hidden w-200" alt="" data-aos="zoom-in" data-aos-duration="900">
-            <h1 class=" text-center text-3xl py-1 font-light lg:hidden">Hallo Selamat Datang!</h1>
+            <h1 class=" text-center text-3xl py-1 font-light lg:hidden">{{ $t('ucapan')}}</h1>
             <div class="md:hidden">
-              <p>Selamat Hari Raya Idul Fitri</p>
-              <p>1446 Hijriah</p>
+              <p>{{ $t('ucapan2')}}</p>
+              <p>{{ $t('ucapan3')}}</p>
               <!-- <p>Mohon Maaf Lahir dan Batin, Semoga Allah SWT Menerima Amal Ibadah Kita</p> -->
             </div>
           </div>
@@ -199,7 +199,7 @@
           </div>
 
           <div>
-            <div class="hidden md:flex">
+            <div class="hidden md:block">
               <!-- Bagian Surah Favorit -->
               <h1 class="py-5 text-center text-xl font-bold">Surah Favorit</h1>
               <div class="flex gap-4 justify-center flex-wrap">
@@ -211,6 +211,21 @@
               
                   <button>{{ surah.nama }}</button>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- EVENT -->
+          <div class="hidden md:block overflow-x-auto w-full p-6 bg-white bg-border-100 my-5 rounded-lg shadow-md">
+            <h1 class="text-xl font-bold mb-4">Akan Datang</h1>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+              <div
+                v-for="(event, index) in events"
+                :key="index"
+                class="flex flex-col items-center bg-white bg-gray-10 p-5 rounded-2xl shadow-lg transform transition duration-300 hover:scale-105"
+              >
+                <img class="w-24 h-24 rounded-2xl object-cover" :src="event.image" :alt="event.title" />
+                <h1 class="mt-3 text-lg font-semibold">{{ event.title }}</h1>
               </div>
             </div>
           </div>
@@ -325,7 +340,7 @@
                <input
                  class="bg-transparent outline-none text-white placeholder-gray-400 w-full"
                  type="text"
-                 placeholder="Cari Surat..."
+                 :placeholder="$t('cari')"
                  v-model="localSearchQuery"
                  @input="updateParentSearch"
                />
@@ -403,6 +418,11 @@
 import axios from 'axios'
 import { DotLottieVue } from '@lottiefiles/dotlottie-vue'
 import Swal from 'sweetalert2';
+
+import img1 from '../assets/img/avatar.avif'
+import img2 from '../assets/img/avatar (2).avif'
+import img3 from '../assets/img/avatar (1).avif'
+import img4 from '../assets/img/iklan.png'
 export default {
   props: {
     sidebarOpen: Boolean,
@@ -453,7 +473,13 @@ export default {
         { nomor: 55, nama: "Ar-Rahman", tempatTurun: "Madinah", jumlahAyat: 78 },
         { nomor: 67, nama: "Al-Mulk", tempatTurun: "Mekah", jumlahAyat: 30 },
         { nomor: 18, nama: "Al-Kahfi", tempatTurun: "Mekah", jumlahAyat: 110 }
-      ]
+      ],
+      events: [
+        { title: "Mindful Fasting", image: img1 },
+        { title: "Ramadan", image: img2 },
+        { title: "Iron Healing", image: img3 },
+        { title: "Tuntunan Sholat", image: img4 },
+      ],
     }
   },
   computed: {

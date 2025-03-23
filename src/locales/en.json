@@ -1,0 +1,32 @@
+{
+    "menu1": "Home",
+    "menu2": "Prayer",
+    "menu3": "Settings",
+
+    "ucapan": "Hello, Welcome",
+    "ucapan2": "Happy Eid al-Fitr",
+    "ucapan3": "1446 Hijri",
+
+    "text1": "Any questions?",
+    "text2": "Name",
+    "text3": "Select Report",
+    "text4": "Your Email",
+    "text5": "Not Required",
+
+    "select": {
+        "saran": "Suggestion",
+        "kritik": "Criticism",
+        "pertanyaan": "Question"
+    },
+
+    "placeholder": {
+        "nama": "Enter your name",
+        "laporan": "Max 255 characters",
+        "email": "Enter your email"
+    },
+
+    "kirim" : "Send",
+    
+    "cari": "Search Letter",
+    "cari2": "Search Prayer"
+}
