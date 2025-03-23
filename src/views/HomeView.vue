@@ -2,7 +2,7 @@
   <main class="min-h-screen flex flex-col bg-white text-gray transition-all duration-300 bg-gray-10">
     <!-- Main Content -->
     <section
-      class="mt-25 lg:mt-20 md:mt-16 px-4 md:px-16 lg:px-80 py-6 flex flex-col lg:flex-row gap-5"
+      class="mt-25 lg:mt-20 md:mt-16 px-4 md:px-16 lg:px-80  py-6 flex flex-col lg:flex-row gap-5"
     >
       <!-- Daftar Surat -->
       <div
@@ -26,7 +26,7 @@
       </div>
 
       <!-- Detail Surat -->
-      <div v-if="selectedSurat" class="w-full lg:w-2/3 bg-white shadow-2xl bg-border-100 transition-all duration-300 p-6 rounded-2xl">
+      <div v-if="selectedSurat" class="w-full lg:w-full bg-white shadow-2xl bg-border-100 transition-all duration-300 p-6 rounded-2xl">
         <div class="bg-green-500 p-4 rounded-xl">
           <h2 class="text-xl md:text-2xl text-white">
             {{ selectedSurat.namaLatin }} - {{ selectedSurat.nama }} - {{ selectedSurat.tempatTurun }}
@@ -37,7 +37,7 @@
                 <svg class="size-6 fill-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill=""><path d="M20 22H6.5C4.567 22 3 20.433 3 18.5V5C3 3.34315 4.34315 2 6 2H20C20.5523 2 21 2.44772 21 3V21C21 21.5523 20.5523 22 20 22ZM19 20V17H6.5C5.67157 17 5 17.6716 5 18.5C5 19.3284 5.67157 20 6.5 20H19Z"></path></svg>
             </button>
             <div class="relative inline-block mt-2">
-    <!-- Tombol Pengaturan -->
+          <!-- Tombol Pengaturan -->
               <button 
                 class="bg-white cursor-pointer px-4 py-2 rounded-xl flex items-center space-x-2 shadow"
                 @click="IsSetting = !IsSetting"
@@ -118,47 +118,56 @@
           <audio ref="audioPlayer"></audio>
         </div>
         <!-- Daftar Ayat -->
-          <div class="overflow-y-auto h-[60vh] no-scrollbar mt-4">
-            <div v-for="ayat in selectedSurat.ayat" :key="ayat.nomorAyat" class="mb-4">
-              <div class="bg-white transition-all duration-300 p-4 rounded-2xl bg-gray-10">
-                <!-- Ayat dalam Bahasa Arab -->
-                <p class="text-right arabic-text" :style="{ fontSize: fontSize + 'px' }">
-                  {{ ayat.teksArab }}
-                </p>
-              
-                <!-- Teks Latin (Selalu Ada, Bisa Disembunyikan) -->
-                <p v-if="!hideLatin" class="text-green-400">
-                  <em>{{ ayat.teksLatin }}</em>
-                </p>
-              
-                <!-- Terjemahan (Selalu Ada, Bisa Disembunyikan) -->
-                <div v-if="!hideTranslation">
-                  <h1 class="my-5">Artinya:</h1>
-                  <p>{{ getTranslation(ayat) }}</p>
-                </div>
-              
-                <!-- Tombol Putar Audio -->
-                <div class="flex gap-5">
-                  <button @click="playAyat(ayat.audio[selectedQari])" class="bg-green-400 p-2 rounded-xl my-3">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      style="fill: rgba(255, 255, 255, 1)"
-                    >
-                      <path d="M7 6v12l10-6z"></path>
-                    </svg>
-                  </button>
-                </div>
+        <div class="overflow-y-auto h-[60vh] no-scrollbar mt-4">
+          <div v-for="ayat in selectedSurat.ayat" 
+               :key="ayat.nomorAyat" 
+               :id="`ayat-${selectedSurat.nomorSurat}-${ayat.nomorAyat}`" 
+               class="mb-4">
+
+            <div class="bg-white transition-all duration-300 p-4 rounded-2xl bg-gray-10">
+              <!-- Ayat dalam Bahasa Arab -->
+              <p class="text-right arabic-text" :style="{ fontSize: fontSize + 'px' }">
+                {{ ayat.teksArab }}
+              </p>
+            
+              <!-- Teks Latin (Selalu Ada, Bisa Disembunyikan) -->
+              <p v-if="!hideLatin" class="text-green-400">
+                <em>{{ ayat.teksLatin }}</em>
+              </p>
+            
+              <!-- Terjemahan (Selalu Ada, Bisa Disembunyikan) -->
+              <div v-if="!hideTranslation">
+                <h1 class="my-5">Artinya:</h1>
+                <p>{{ getTranslation(ayat) }}</p>
+              </div>
+            
+              <!-- Tombol Putar Audio -->
+              <div class="flex gap-5 items-center">
+                <button @click="playAyat(ayat.audio[selectedQari])" 
+                        class="bg-green-400 p-2 rounded-xl cursor-pointer my-3 hover:bg-blue-400">
+                  <svg xmlns="http://www.w3.org/2000/svg"
+                       width="24" height="24" viewBox="0 0 24 24"
+                       style="fill: rgba(255, 255, 255, 1)">
+                    <path d="M7 6v12l10-6z"></path>
+                  </svg>
+                </button>
+
+                <button @click="toggleBookmark(ayat)" 
+                        class="cursor-pointer bg-green-400 p-2 rounded-xl my-3 hover:bg-blue-400">
+                  <svg class="size-6" xmlns="http://www.w3.org/2000/svg" 
+                       viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M5 2H19C19.5523 2 20 2.44772 20 3V22.1433C20 22.4194 19.7761 22.6434 19.5 22.6434C19.4061 22.6434 19.314 22.6168 19.2344 22.5669L12 18.0313L4.76559 22.5669C4.53163 22.7136 4.22306 22.6429 4.07637 22.4089C4.02647 22.3293 4 22.2373 4 22.1433V3C4 2.44772 4.44772 2 5 2ZM18 4H6V19.4324L12 15.6707L18 19.4324V4Z"></path>
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
+        </div>
       </div>
     
 
       <!-- Jika tidak ada surat yang dipilih -->
-      <div v-else class=" text-center w-full md:w-100 lg:w-100">
+      <div v-else class=" text-center w-full md:w-full lg:w-full">
         <!-- <video autoplay loop muted src="../assets/img/animasi.gif"></video> -->
         <img class="-mt-15 md:hidden object-cover w-full" src="../assets/img/ramadanbaru.png" alt="">
         <div>
@@ -166,12 +175,74 @@
           <div>
             <p class="text-justify md:w-200 hidden">Assalamu'alaikum! Selamat datang di Qur'anLynxx. 'Dan sesungguhnya telah Kami mudahkan Al-Qur'an untuk pelajaran, maka adakah orang yang mau mengambil pelajaran?' (QS. Al-Qamar: 17). Mari mendekatkan diri kepada Allah melalui kalam-Nya.</p>
             <img src="../assets/img/logoquran2.png" class="md:hidden w-200" alt="" data-aos="zoom-in" data-aos-duration="900">
-            <h1 class=" text-center text-3xl py-1 font-light">Hallo Selamat Datang!</h1>
+            <h1 class=" text-center text-3xl py-1 font-light lg:hidden">Hallo Selamat Datang!</h1>
             <div class="md:hidden">
               <p>Selamat Hari Raya Idul Fitri</p>
               <p>1446 Hijriah</p>
               <!-- <p>Mohon Maaf Lahir dan Batin, Semoga Allah SWT Menerima Amal Ibadah Kita</p> -->
             </div>
+          </div>
+
+          <div class="bg- shadow-2xl lg:flex gap-40 p-8 rounded-lg hidden justify-center">
+            <div @click="" class="items-center flex flex-col cursor-pointer">
+              <img src="../assets/img/alquran.svg" alt="">
+              <h1>Al-Qur'an</h1>
+            </div>
+            <div @click="" class="items-center flex flex-col cursor-pointer">
+              <img src="../assets/img/tahlil.svg" alt="">
+              <h1>Yasin</h1>
+            </div>
+            <div @click="doa()" class="items-center flex flex-col cursor-pointer">
+              <img src="../assets/img/doa.svg" alt="">
+              <h1>Doa</h1>
+            </div>
+          </div>
+
+          <div>
+            <div class="hidden md:flex">
+              <!-- Bagian Surah Favorit -->
+              <h1 class="py-5 text-center text-xl font-bold">Surah Favorit</h1>
+              <div class="flex gap-4 justify-center flex-wrap">
+                <div 
+                  v-for="surah in surahList" 
+                  :key="surah.nomor" 
+                  class="border px-5 py-2 rounded-full cursor-pointer hover:bg-gray-100 transition"
+                  @click="selectSurah(surah.nomor)"> <!-- Klik untuk menampilkan detail -->
+              
+                  <button>{{ surah.nama }}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-3 w-full hidden md:block">
+          <ul v-if="bookmarks.length > 0" class="lg:flex lg:flex-wrap md:grid md:grid-cols-3 gap-3 justify-center">
+            <li v-for="(ayat, index) in bookmarks" :key="index" 
+                class=" p-3 rounded-lg shadow-lg  transition-all cursor-pointer 
+                       w-40 h-40 md:w-48 md:h-48 lg:w-45 lg:h-25 flex flex-col justify-between items-center overflow-hidden"
+                @click="goToAyat(ayat.nomorSurah, ayat.nomorAyat)">
+          
+              <!-- Nama Surah -->
+              <div class="w-full text-center items-center flex">
+                <p class=" text-xs font-medium truncate text-start w-full">{{ ayat.namaSurah }}</p>
+                <button @click.stop="removeBookmark(index)" 
+                        class="bg-red-500 text-white p-1 rounded-full hover:bg-red-600 transition">
+                  <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17 6H22V8H20V21C20 21.5523 19.5523 22 19 22H5C4.44772 22 4 21.5523 4 21V8H2V6H7V3C7 2.44772 7.44772 2 8 2H16C16.5523 2 17 2.44772 17 3V6ZM9 11V17H11V11H9ZM13 11V17H15V11H13ZM9 4V6H15V4H9Z"></path>
+                  </svg>
+                </button>
+              </div>
+            
+              <!-- Ayat Arab -->
+              <div class="flex-1 flex items-center justify-center w-full overflow-hidden">
+                <p class="text-lg  font-bold text-center truncate-left w-full">{{ ayat.teksArab }}</p>
+              </div>
+            
+              <!-- Tombol Hapus -->
+            </li>
+          </ul>
+        
+          <p v-else class="text-gray-500 text-center mt-2 text-sm">Belum ada yang disimpan</p>
           </div>
         </div>
       </div>
@@ -237,55 +308,94 @@
     </div>
 
     <!-- MOBILE SURAH -->
-    <div
-      v-if="IsSurah"
-      class="fixed w-full p-3 top-25 backdrop:blur-2xl"
-      data-aos="fade-up"
-      data-aos-duration="500"
-    >
-      <div class="bg-white bg-border-100 md:hidden lg:hidden w-full lg:w-1/3 transition-all duration-300 text-black text-gray overflow-y-auto h-[83vh] lg:h-[80vh] rounded-2xl p-4 no-scrollbar">
-        <div class="" >
-          <svg @click="openSurat" class="size-7 my-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M7.82843 10.9999H20V12.9999H7.82843L13.1924 18.3638L11.7782 19.778L4 11.9999L11.7782 4.22168L13.1924 5.63589L7.82843 10.9999Z"></path></svg>
+     <main v-if="IsSurah">
+
+       <div
+         class="fixed w-full p-3 top-25 backdrop:blur-2xl"
+         data-aos="fade-up"
+         data-aos-duration="500"
+       >
+         <div class="bg-white bg-border-100 md:hidden lg:hidden w-full lg:w-1/3 transition-all duration-300 text-black text-gray overflow-y-auto h-[83vh] lg:h-[80vh] rounded-2xl p-4 no-scrollbar">
+           <div class="flex justify-between items-center" >
+             <svg @click="openSurat" class="size-7 my-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M7.82843 10.9999H20V12.9999H7.82843L13.1924 18.3638L11.7782 19.778L4 11.9999L11.7782 4.22168L13.1924 5.63589L7.82843 10.9999Z"></path></svg>
+             <svg @click="openBookMark" class="size-6 my-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M5 2H19C19.5523 2 20 2.44772 20 3V22.1433C20 22.4194 19.7761 22.6434 19.5 22.6434C19.4061 22.6434 19.314 22.6168 19.2344 22.5669L12 18.0313L4.76559 22.5669C4.53163 22.7136 4.22306 22.6429 4.07637 22.4089C4.02647 22.3293 4 22.2373 4 22.1433V3C4 2.44772 4.44772 2 5 2Z"></path></svg>
+           </div>
+           <div class="mb-4">
+             <div class="items-center flex py-2 bg-gray-800 px-4 rounded-full border border-gray-600">
+               <input
+                 class="bg-transparent outline-none text-white placeholder-gray-400 w-full"
+                 type="text"
+                 placeholder="Cari Surat..."
+                 v-model="localSearchQuery"
+                 @input="updateParentSearch"
+               />
+               <svg
+                 xmlns="http://www.w3.org/2000/svg"
+                 width="20"
+                 height="20"
+                 viewBox="0 0 24 24"
+                 class="text-white"
+               >
+                 <path
+                   d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z"
+                 ></path>
+               </svg>
+             </div>
+           </div>
+           <ul>
+             <li
+               v-for="item in filteredSurat"
+               :key="item.nomor"
+               @click="setActiveSurah(item.nomor)"
+               :class="{ active: selectedSurah === item.nomor }"
+               class="cursor-pointer p-3 bg-white shadow bg-gray-10 transition-all duration-300 rounded-2xl mb-2 hover:bg-green-700 "
+             >
+             <strong>{{ convertToArabic(item.nomor) }}. {{ item.namaLatin }}</strong>
+               <div class="flex justify-between">
+                 <span dir="rtl">{{ item.nama }}</span>
+                 <span>{{ item.jumlahAyat }} Ayat</span>
+               </div>
+             </li>
+           </ul>
+         </div>
         </div>
-        <div class="mb-4">
-          <div class="items-center flex py-2 bg-gray-800 px-4 rounded-full border border-gray-600">
-            <input
-              class="bg-transparent outline-none text-white placeholder-gray-400 w-full"
-              type="text"
-              placeholder="Cari Surat..."
-              v-model="localSearchQuery"
-              @input="updateParentSearch"
-            />
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              class="text-white"
-            >
-              <path
-                d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z"
-              ></path>
-            </svg>
+        <div v-if="isMarkOpen" class="fixed p-3 top-80 md:block  w-full">
+          <div class=" w-full bg-white bg-border-100 rounded-2xl shadow-2xl" data-aos="fade-up" data-aos-duration="500">
+            <svg @click="openBookMark" class="size-7 pt-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.5859 12L2.79297 4.20706L4.20718 2.79285L12.0001 10.5857L19.793 2.79285L21.2072 4.20706L13.4143 12L21.2072 19.7928L19.793 21.2071L12.0001 13.4142L4.20718 21.2071L2.79297 19.7928L10.5859 12Z"></path></svg>
+              <h1 class="text-xl font-bold text-center mb-3">Disimpan</h1>
+    
+              <ul v-if="bookmarks.length > 0" class="flex flex-wrap md:grid md:grid-cols-3 gap-3 justify-center">
+                <li v-for="(ayat, index) in bookmarks" :key="index" 
+                    class=" p-3 rounded-lg shadow-lg  transition-all cursor-pointer 
+                           w-40 h-40 md:w-48 md:h-48 lg:w-45 lg:h-25 flex flex-col justify-between items-center overflow-hidden"
+                    @click="goToAyat(ayat.nomorSurah, ayat.nomorAyat)">
+              
+                  <!-- Nama Surah -->
+                  <div class="w-full text-center items-center flex">
+                    <p class=" text-xs font-medium truncate text-start w-full">{{ ayat.namaSurah }}</p>
+                    <button @click.stop="removeBookmark(index)" 
+                            class="bg-red-500 text-white p-1 rounded-full hover:bg-red-600 transition">
+                      <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17 6H22V8H20V21C20 21.5523 19.5523 22 19 22H5C4.44772 22 4 21.5523 4 21V8H2V6H7V3C7 2.44772 7.44772 2 8 2H16C16.5523 2 17 2.44772 17 3V6ZM9 11V17H11V11H9ZM13 11V17H15V11H13ZM9 4V6H15V4H9Z"></path>
+                      </svg>
+                    </button>
+                  </div>
+                
+                  <!-- Ayat Arab -->
+                  <div class="flex-1 flex items-center justify-center w-full overflow-hidden">
+                    <p class="text-lg  font-bold text-center truncate-left w-full">{{ ayat.teksArab }}</p>
+                  </div>
+                
+                  <!-- Tombol Hapus -->
+                </li>
+              </ul>
+            
+              <p v-else class="text-gray-500 h-screen text-center mt-2 text-sm">Belum ada yang disimpan</p>
           </div>
         </div>
-        <ul>
-          <li
-            v-for="item in filteredSurat"
-            :key="item.nomor"
-            @click="setActiveSurah(item.nomor)"
-            :class="{ active: selectedSurah === item.nomor }"
-            class="cursor-pointer p-3 bg-white shadow bg-gray-10 transition-all duration-300 rounded-2xl mb-2 hover:bg-green-700 "
-          >
-          <strong>{{ convertToArabic(item.nomor) }}. {{ item.namaLatin }}</strong>
-            <div class="flex justify-between">
-              <span dir="rtl">{{ item.nama }}</span>
-              <span>{{ item.jumlahAyat }} Ayat</span>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
+     </main>
+
+    <!-- MOBILE BOOKMARK -->
   </main>
 </template>
 
@@ -308,8 +418,11 @@ export default {
       selectedSurat: null,
       selectedQari: '',
       IsSetting: false,
+      isMarkOpen: false,
       fontSize: 32,
       isLatin: false,
+      bookmarks: [],
+      isBookmarked: false,
       isTranslationOn: false,
       selectedLanguage: "id",
       hideLatin: false, 
@@ -332,6 +445,13 @@ export default {
       languages: [
         { value: "id", label: "Bahasa Indonesia" },
         { value: "ar", label: "العربية" },
+      ],
+      surahList: [  // Daftar surah favorit
+        { nomor: 36, nama: "Yasin", tempatTurun: "Mekah", jumlahAyat: 83 },
+        { nomor: 1, nama: "Al-Fatihah", tempatTurun: "Mekah", jumlahAyat: 7 },
+        { nomor: 55, nama: "Ar-Rahman", tempatTurun: "Madinah", jumlahAyat: 78 },
+        { nomor: 67, nama: "Al-Mulk", tempatTurun: "Mekah", jumlahAyat: 30 },
+        { nomor: 18, nama: "Al-Kahfi", tempatTurun: "Mekah", jumlahAyat: 110 }
       ]
     }
   },
@@ -382,11 +502,116 @@ export default {
       this.localSearchQuery = savedSearch;
       this.$emit('update-search', savedSearch);
     }
-    // if (localStorage.getItem("peringatan_disetujui") === "true") {
-    //   this.Peringatan = false;
-    // }
+    if (localStorage.getItem("peringatan_disetujui") === "true") {
+      this.Peringatan = false;
+    }
+    this.loadBookmarks();
   },
   methods: {
+  selectSurah(nomor) {
+    this.selectedSurah = this.surahList.find(surah => surah.nomor === nomor);
+  },
+    openBookMark() {
+      this.isMarkOpen = !this.isMarkOpen;
+    },
+    doa() {
+      window.location.href = "/doa";
+    },
+    loadBookmarks() {
+  this.bookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
+},
+
+toggleBookmark(ayat) {
+  console.log("Toggling bookmark for:", ayat.namaLatin, ayat.nomorSurah, ayat.nomorAyat);
+  
+  const currentBookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
+  console.log("Current bookmarks:", currentBookmarks);
+  
+  const nomorSurah = Number(ayat.nomorSurah);
+  const nomorAyat = Number(ayat.nomorAyat);
+  
+  const existingBookmarkIndex = currentBookmarks.findIndex(
+    bookmark => Number(bookmark.nomorSurah) === nomorSurah && 
+               Number(bookmark.nomorAyat) === nomorAyat
+  );
+  
+  console.log("Existing bookmark index:", existingBookmarkIndex);
+  
+  let updatedBookmarks = [...currentBookmarks];
+  
+  if (existingBookmarkIndex === -1) {
+    updatedBookmarks.push({
+      id: `${nomorSurah}-${nomorAyat}`,
+      nomorSurah: this.selectedSurat.nomorSurat, 
+      namaSurah: this.selectedSurat.namaLatin,
+      nomorAyat: nomorAyat,
+      namaLatin: ayat.namaLatin,
+      teksArab: ayat.teksArab,
+      teksLatin: ayat.teksLatin,
+      timestamp: Date.now()
+    });
+    console.log("Added new bookmark");
+  } else {
+    updatedBookmarks.splice(existingBookmarkIndex, 1);
+    console.log("Removed existing bookmark");
+  }
+  
+  localStorage.setItem("bookmarks", JSON.stringify(updatedBookmarks));
+  this.bookmarks = updatedBookmarks;
+  
+  console.log("Updated bookmarks:", this.bookmarks);
+},
+
+removeBookmark(index) {
+  const updatedBookmarks = [...this.bookmarks];
+  updatedBookmarks.splice(index, 1);
+  localStorage.setItem("bookmarks", JSON.stringify(updatedBookmarks));
+  this.bookmarks = updatedBookmarks;
+},
+
+goToAyat(nomorSurah, nomorAyat) {
+  console.log("Mencoba menuju ayat:", { nomorSurah, nomorAyat });
+
+  if (!nomorSurah || !nomorAyat) {
+    console.error("nomorSurah atau nomorAyat tidak valid!", { nomorSurah, nomorAyat });
+    return;
+  }
+
+  this.showSurah(nomorSurah).then(() => {
+    this.scrollToAyat(nomorSurah, nomorAyat);
+  });
+},
+
+  showSurah(nomorSurah) {
+    return new Promise((resolve) => {
+      this.selectedSurah = nomorSurah;
+      this.showSurahDetail = true;
+
+      this.$nextTick(() => {
+        setTimeout(resolve, 300);
+      });
+    });
+  },
+
+  scrollToAyat(nomorSurah, nomorAyat) {
+  if (!nomorSurah || !nomorAyat) {
+    console.error("nomorSurah atau nomorAyat tidak valid!");
+    return;
+  }
+
+  const ayatElement = document.getElementById(`ayat-${nomorSurah}-${nomorAyat}`);
+  
+  if (ayatElement) {
+    ayatElement.scrollIntoView({ behavior: "smooth", block: "center" });
+    ayatElement.classList.add("bg-yellow-200");
+    
+    setTimeout(() => {
+      ayatElement.classList.remove("bg-yellow-200");
+    }, 2000);
+  } else {
+    console.error(`Ayat dengan ID 'ayat-${nomorSurah}-${nomorAyat}' tidak ditemukan!`);
+  }
+},
     getTranslation(ayat) {
       if (this.selectedLanguage === "id") return ayat.teksIndonesia;
       if (this.selectedLanguage === "en") return ayat.teksEnglish || "Translation not available";
@@ -442,7 +667,6 @@ export default {
         const response = await axios.get(`https://equran.id/api/v2/surat/${nomorSurat}`);
         this.selectedSurat = response.data.data;
 
-        // Jangan langsung pilih qari pertama, biarkan tetap kosong
         this.selectedQari = ""; 
       } catch (error) {
         console.error("Error fetching detail surat:", error);
@@ -527,4 +751,14 @@ export default {
     opacity: 100%;
     }
 }
+.truncate-left {
+  display: inline-block;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  direction: rtl;
+  text-align: right;
+}
+
 </style>
