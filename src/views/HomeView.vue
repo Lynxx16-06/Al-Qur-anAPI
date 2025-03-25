@@ -207,7 +207,7 @@
                   v-for="surah in surahList" 
                   :key="surah.nomor" 
                   class="border px-5 py-2 rounded-full cursor-pointer hover:bg-gray-100 transition"
-                  @click="selectSurah(surah.nomor)"> <!-- Klik untuk menampilkan detail -->
+                  @click="selectSurah(surah.nomor)"> 
               
                   <button>{{ surah.nama }}</button>
                 </div>
@@ -377,7 +377,7 @@
         <div v-if="isMarkOpen" class="fixed p-3 top-80 md:block  w-full">
           <div class=" w-full bg-white bg-border-100 rounded-2xl shadow-2xl" data-aos="fade-up" data-aos-duration="500">
             <svg @click="openBookMark" class="size-7 pt-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.5859 12L2.79297 4.20706L4.20718 2.79285L12.0001 10.5857L19.793 2.79285L21.2072 4.20706L13.4143 12L21.2072 19.7928L19.793 21.2071L12.0001 13.4142L4.20718 21.2071L2.79297 19.7928L10.5859 12Z"></path></svg>
-              <h1 class="text-xl font-bold text-center mb-3">Disimpan</h1>
+              <h1 class="text-xl font-bold text-center mb-3">{{ $t('simpan') }}</h1>
     
               <ul v-if="bookmarks.length > 0" class="flex flex-wrap md:grid md:grid-cols-3 gap-3 justify-center">
                 <li v-for="(ayat, index) in bookmarks" :key="index" 
@@ -405,7 +405,7 @@
                 </li>
               </ul>
             
-              <p v-else class="text-gray-500 h-screen text-center mt-2 text-sm">Belum ada yang disimpan</p>
+              <p v-else class="text-gray-500 h-screen text-center mt-2 text-sm">{{ $t('note') }}</p>
           </div>
         </div>
      </main>

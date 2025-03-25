@@ -12,7 +12,7 @@ import id from './locales/id.json';
 
 const i18n = createI18n({
     legacy: false,
-    locale: 'en', 
+    locale: 'id', 
     fallbackLocale: 'en',
     messages: { en, id }
   });

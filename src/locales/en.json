@@ -28,5 +28,9 @@
     "kirim" : "Send",
     
     "cari": "Search Letter",
-    "cari2": "Search Prayer"
+    "cari2": "Search Prayer",
+
+    "simpan" : "Saved",
+    "note" : "Nothing saved yet"
+
 }

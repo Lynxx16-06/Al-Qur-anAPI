@@ -29,7 +29,10 @@
 
 
     "cari" : "Cari Surat",
-    "cari2" : "Cari Doa"
+    "cari2" : "Cari Doa",
+
+    "simpan" : "Disimpan",
+    "note" : "Belum ada yang disimpan"
 }
 
 
