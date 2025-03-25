@@ -273,17 +273,17 @@
         </div>
         
           <div class="">
-            <h1>Hallo, saya Ilham Yuniar Pembuat Qur'anLynxx</h1>
-            <p class="">Jika ada bug atau error, bisa ditanyakan di CS Qur'anLynxx.</p>
+            <h1>{{ $t('sapa') }}</h1>
+            <p class="">{{ $t('sapa2') }}</p>
           </div>
         
           <div class="flex gap-2 mt-3">
             <input type="checkbox" id="toggle" v-model="toggle" />
-            <label for="toggle">Setuju untuk dipahami</label>
+            <label for="toggle">{{ $t('sapa3') }}</label>
           </div>
         
           <button @click="setujuiPeringatan" class="bg-green-500 text-white px-4 py-2 rounded-lg mt-3">
-            Oke, Saya Paham
+            {{ $t('sapa4') }}
           </button>
         </div>
       </div>
