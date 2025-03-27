@@ -144,6 +144,15 @@
                     <button @click="changeLanguage('en')" class="block w-full px-4 py-2 text-left hover:bg-gray-100">
                       🇬🇧 English
                     </button>
+                    <button @click="changeLanguage('jp')" class="block w-full px-4 py-2 text-left hover:bg-gray-100">
+                      🇯🇵 日本語
+                    </button>
+                    <button @click="changeLanguage('zh')" class="block w-full px-4 py-2 text-left hover:bg-gray-100">
+                      🇨🇳 中文 
+                    </button>
+                    <button @click="changeLanguage('ko')" class="block w-full px-4 py-2 text-left hover:bg-gray-100">
+                      🇰🇷 한국어
+                    </button>
                   </div>
               </div>
               </div>
@@ -284,12 +293,25 @@ export default {
     this.$router.beforeEach((to, from, next) => {
       next();
     });
+
+    const savedLang = localStorage.getItem('lang') || 'en';
+    this.$i18n.locale = savedLang;
   },
 
   computed: {
     getCurrentLanguage() {
-      return this.$i18n.locale === 'id' ? '🇮🇩 Indonesia' : '🇬🇧 English';
+    if (this.$i18n.locale === 'id') {
+      return '🇮🇩 Indonesia';
+    } else if (this.$i18n.locale === 'jp') {
+      return '🇯🇵 日本語';
+    } else if (this.$i18n.locale === 'zh') {
+      return '🇨🇳 中文 (Mandarin)';
+    } else if (this.$i18n.locale === 'ko') {
+      return '🇰🇷 한국어 (Korea)';
+    } else {
+      return '🇬🇧 English';
     }
+  }
   },
   methods: {
     openSearch() {
@@ -300,6 +322,7 @@ export default {
     },
     changeLanguage(lang) {
       this.$i18n.locale = lang;
+      localStorage.setItem('lang', lang);
       this.isOpen = false; // Tutup dropdown setelah memilih
     },
     activeNabar(index) {
