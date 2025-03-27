@@ -119,7 +119,7 @@
                 <!-- Search -->
                 <div v-if="IsSearch" class="relative ">
                   <input
-                    class="bg-transparent outline-none text-white placeholder-gray-400 w-full sm:w-40"
+                    class="bg-transparent outline-none border p-1 rounded-2xl pl-2 text-white placeholder-gray-400 w-full sm:w-40"
                     type="text"
                     :placeholder="$t('cari')"
                     v-model="searchQuery"
@@ -305,9 +305,9 @@ export default {
     } else if (this.$i18n.locale === 'jp') {
       return '🇯🇵 日本語';
     } else if (this.$i18n.locale === 'zh') {
-      return '🇨🇳 中文 (Mandarin)';
+      return '🇨🇳 中文 ';
     } else if (this.$i18n.locale === 'ko') {
-      return '🇰🇷 한국어 (Korea)';
+      return '🇰🇷 한국어';
     } else {
       return '🇬🇧 English';
     }
