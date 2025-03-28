@@ -214,9 +214,7 @@
           </nav>
         </main>
       </div>
-
-
-              <div class="relative md:inline-block text-left hidden">
+      <div class="relative md:inline-block hidden text-left">
                   <!-- Button untuk membuka dropdown -->
                   <button @click="toggleDropdown" class="flex items-center gap-2 p-2 border rounded-lg">
                     <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
@@ -228,23 +226,22 @@
                   <!-- Dropdown menu -->
                   <div v-if="isOpen" class="absolute right-0 mt-2 w-40 bg-white bg-border-100 text-gray text-black border rounded-lg shadow-lg">
                     <button @click="changeLanguage('id')" class="block w-full px-4 py-2 text-left hover:bg-gray-100">
-                      🇮🇩
+                      🇮🇩 Indonesia
                     </button>
                     <button @click="changeLanguage('en')" class="block w-full px-4 py-2 text-left hover:bg-gray-100">
-                      🇬🇧
+                      🇬🇧 English
                     </button>
                     <button @click="changeLanguage('jp')" class="block w-full px-4 py-2 text-left hover:bg-gray-100">
-                      🇯🇵
+                      🇯🇵 日本語
                     </button>
                     <button @click="changeLanguage('zh')" class="block w-full px-4 py-2 text-left hover:bg-gray-100">
-                      🇨🇳
+                      🇨🇳 中文 
                     </button>
                     <button @click="changeLanguage('ko')" class="block w-full px-4 py-2 text-left hover:bg-gray-100">
-                      🇰🇷
+                      🇰🇷 한국어
                     </button>
                   </div>
               </div>
-
       <button
         @click="toggleDarkMode"
         class="md:p-2 md:rounded-full md:bg-gray-200 md:dark:bg-gray-800 md:fixed md:z-50 md:top-5  md:right-20 sm:flex sm:items-center hidden md:block md:cursor-pointer md:text-black md:dark:text-white md:shadow-lg md:hover:bg-gray-300 md:dark:hover:bg-gray-700 md:transition z-50 md:w-9 right-3 md:border-0 border rounded-full p-2 top-2 shadow-2xl"
