@@ -243,7 +243,7 @@
           </nav>
         </main>
       </div>
-      <main class="flex items-center">
+      <main class="md:flex items-center hidden ">
         <div class="relative md:inline-block hidden text-left">
            <!-- Button untuk membuka dropdown -->
            <button @click="toggleDropdown" class="flex items-center gap-2 p-2 border rounded-lg">
