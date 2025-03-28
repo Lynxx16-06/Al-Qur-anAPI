@@ -733,7 +733,7 @@ goToAyat(nomorSurah, nomorAyat) {
 }
 </script>
 
-<style>
+<style scope>
 .surat-item {
   cursor: pointer;
   padding: 5px;

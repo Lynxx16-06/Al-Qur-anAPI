@@ -12,6 +12,7 @@
         @update-search="updateSearch"
       ></router-view>
     </div>
+    
 
     <!-- Tombol Dark Mode -->
     <nav
@@ -42,6 +43,9 @@
           </svg>
         </div>
       </div>
+
+
+      
 
       <div>
         <button class="lg:hidden md:hidden sm:hidden" @click="toggleNavbar">
@@ -114,19 +118,34 @@
                   v-model="searchQuery"
                   @input="handleSearchInput"
                 /> -->
+                <div class=" ">
+                    <audio ref="audioElement" :muted="muted" controls class="hidden">
+                      <source :src="audioSrc" type="audio/mpeg">
+                    </audio>
+                  
+                    <label class="flex items-center space-x-2 cursor-pointer">
+                      <div class="relative">
+                        <input 
+                          type="checkbox" 
+                          class="sr-only"
+                          :checked="isPlaying"
+                          @change="toggleAudio"
+                        >
+                        <div 
+                          class="w-12 h-6 bg-gray-300 rounded-full shadow-inner transition-colors duration-300"
+                          :class="{'bg-green-400': isPlaying}"
+                        ></div>
+                        <div 
+                          class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300"
+                          :class="{'translate-x-6': isPlaying}"
+                        ></div>
+                      </div>
+                    </label>
+                  </div>
                 <svg @click="openSearch" class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"></path></svg>
 
                 <!-- Search -->
-                <div v-if="IsSearch" class="relative ">
-                  <input
-                    class="bg-transparent outline-none border p-1 rounded-2xl pl-2 text-white placeholder-gray-400 w-full sm:w-40"
-                    type="text"
-                    maxlength="15"
-                    :placeholder="$t('cari')"
-                    v-model="searchQuery"
-                    @input="handleSearchInput"
-                  />
-                </div>
+                
 
                 <div class="relative inline-block text-left">
                   <!-- Button untuk membuka dropdown -->
@@ -158,6 +177,16 @@
               </div>
               </div>
             </div>
+            <div v-if="IsSearch" class="relative px-5 py-2 kedip">
+                  <input
+                    class="bg-transparent outline-none border p-1 rounded-2xl pl-2 text-white placeholder-gray-400 w-full sm:w-40"
+                    type="text"
+                    maxlength="15"
+                    :placeholder="$t('cari')"
+                    v-model="searchQuery"
+                    @input="handleSearchInput"
+                  />
+                </div>
 
 
             <!-- CS -->
@@ -214,69 +243,98 @@
           </nav>
         </main>
       </div>
-      <div class="relative md:inline-block hidden text-left">
-         <!-- Button untuk membuka dropdown -->
-         <button @click="toggleDropdown" class="flex items-center gap-2 p-2 border rounded-lg">
-           <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-             <path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM9.71002 19.6674C8.74743 17.6259 8.15732 15.3742 8.02731 13H4.06189C4.458 16.1765 6.71639 18.7747 9.71002 19.6674ZM10.0307 13C10.1811 15.4388 10.8778 17.7297 12 19.752C13.1222 17.7297 13.8189 15.4388 13.9693 13H10.0307ZM19.9381 13H15.9727C15.8427 15.3742 15.2526 17.6259 14.29 19.6674C17.2836 18.7747 19.542 16.1765 19.9381 13ZM4.06189 11H8.02731C8.15732 8.62577 8.74743 6.37407 9.71002 4.33256C6.71639 5.22533 4.458 7.8235 4.06189 11ZM10.0307 11H13.9693C13.8189 8.56122 13.1222 6.27025 12 4.24799C10.8778 6.27025 10.1811 8.56122 10.0307 11ZM14.29 4.33256C15.2526 6.37407 15.8427 8.62577 15.9727 11H19.9381C19.542 7.8235 17.2836 5.22533 14.29 4.33256Z"></path>
-           </svg>
-           <span>{{ getCurrentLanguage }}</span>
-         </button>
-      
-         <!-- Dropdown menu -->
-         <div v-if="isOpen" class="absolute right-0 mt-2 w-40 bg-white bg-border-100 text-gray text-black border rounded-lg shadow-lg">
-           <button @click="changeLanguage('id')" class="block w-full px-4 py-2 text-left hover:bg-gray-100">
-             🇮🇩 Indonesia
+      <main class="flex items-center">
+        <div class="relative md:inline-block hidden text-left">
+           <!-- Button untuk membuka dropdown -->
+           <button @click="toggleDropdown" class="flex items-center gap-2 p-2 border rounded-lg">
+             <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+               <path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM9.71002 19.6674C8.74743 17.6259 8.15732 15.3742 8.02731 13H4.06189C4.458 16.1765 6.71639 18.7747 9.71002 19.6674ZM10.0307 13C10.1811 15.4388 10.8778 17.7297 12 19.752C13.1222 17.7297 13.8189 15.4388 13.9693 13H10.0307ZM19.9381 13H15.9727C15.8427 15.3742 15.2526 17.6259 14.29 19.6674C17.2836 18.7747 19.542 16.1765 19.9381 13ZM4.06189 11H8.02731C8.15732 8.62577 8.74743 6.37407 9.71002 4.33256C6.71639 5.22533 4.458 7.8235 4.06189 11ZM10.0307 11H13.9693C13.8189 8.56122 13.1222 6.27025 12 4.24799C10.8778 6.27025 10.1811 8.56122 10.0307 11ZM14.29 4.33256C15.2526 6.37407 15.8427 8.62577 15.9727 11H19.9381C19.542 7.8235 17.2836 5.22533 14.29 4.33256Z"></path>
+             </svg>
+             <span>{{ getCurrentLanguage }}</span>
            </button>
-           <button @click="changeLanguage('en')" class="block w-full px-4 py-2 text-left hover:bg-gray-100">
-             🇬🇧 English
-           </button>
-           <button @click="changeLanguage('jp')" class="block w-full px-4 py-2 text-left hover:bg-gray-100">
-             🇯🇵 日本語
-           </button>
-           <button @click="changeLanguage('zh')" class="block w-full px-4 py-2 text-left hover:bg-gray-100">
-             🇨🇳 中文 
-           </button>
-           <button @click="changeLanguage('ko')" class="block w-full px-4 py-2 text-left hover:bg-gray-100">
-             🇰🇷 한국어
-           </button>
-         </div>
+        
+           <!-- Dropdown menu -->
+           <div v-if="isOpen" class="absolute right-0 mt-2 w-40 bg-white bg-border-100 text-gray text-black border rounded-lg shadow-lg">
+             <button @click="changeLanguage('id')" class="block w-full px-4 py-2 text-left hover:bg-gray-100">
+               🇮🇩 Indonesia
+             </button>
+             <button @click="changeLanguage('en')" class="block w-full px-4 py-2 text-left hover:bg-gray-100">
+               🇬🇧 English
+             </button>
+             <button @click="changeLanguage('jp')" class="block w-full px-4 py-2 text-left hover:bg-gray-100">
+               🇯🇵 日本語
+             </button>
+             <button @click="changeLanguage('zh')" class="block w-full px-4 py-2 text-left hover:bg-gray-100">
+               🇨🇳 中文 
+             </button>
+             <button @click="changeLanguage('ko')" class="block w-full px-4 py-2 text-left hover:bg-gray-100">
+               🇰🇷 한국어
+             </button>
+           </div>
+          </div>
+  
+  
+          <div class="p-4 hidden md:flex">
+      <audio ref="audioElement" :muted="muted" controls class="hidden">
+        <source :src="audioSrc" type="audio/mpeg">
+      </audio>
+  
+      <!-- Toggle Switch -->
+      <label class="flex items-center space-x-2 cursor-pointer">
+        <div class="relative">
+          <input 
+            type="checkbox" 
+            class="sr-only"
+            :checked="isPlaying"
+            @change="toggleAudio"
+          >
+          <div 
+            class="w-12 h-6 bg-gray-300 rounded-full shadow-inner transition-colors duration-300"
+            :class="{'bg-green-400': isPlaying}"
+          ></div>
+          <div 
+            class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300"
+            :class="{'translate-x-6': isPlaying}"
+          ></div>
         </div>
-      <button
-        @click="toggleDarkMode"
-        class="md:p-2 md:mr-7 lg:mr-0 md:rounded-full md:bg-gray-200 md:dark:bg-gray-800 md:fixed md:z-50 md:top-5  md:right-20 sm:flex sm:items-center hidden md:block md:cursor-pointer md:text-black md:dark:text-white md:shadow-lg md:hover:bg-gray-300 md:dark:hover:bg-gray-700 md:transition z-50 md:w-9 right-3 md:border-0 border rounded-full p-2 top-2 shadow-2xl"
-      >
-        <svg
-          v-if="isDark"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="size-4 w-5 h-5 text-yellow-500"
+      </label>
+    </div>
+        <button
+          @click="toggleDarkMode"
+          class="md:p-2 md:mr-7 lg:mr-0 md:rounded-full md:bg-gray-200 md:dark:bg-gray-800 md:fixed md:z-50 md:top-5  md:right-20 sm:flex sm:items-center hidden md:block md:cursor-pointer md:text-black md:dark:text-white md:shadow-lg md:hover:bg-gray-300 md:dark:hover:bg-gray-700 md:transition z-50 md:w-9 right-3 md:border-0 border rounded-full p-2 top-2 shadow-2xl"
         >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
-          />
-        </svg>
-        <svg
-          v-else
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="size-4 w-5 h-5 text-gray-900 dark:text-gray-300"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"
-          />
-        </svg>
-      </button>
+          <svg
+            v-if="isDark"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-4 w-5 h-5 text-yellow-500"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
+            />
+          </svg>
+          <svg
+            v-else
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-4 w-5 h-5 text-gray-900 dark:text-gray-300"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"
+            />
+          </svg>
+        </button>
+      </main>
     </nav>
   </div>
 
@@ -289,13 +347,21 @@
 <script>
 import emailjs from "emailjs-com";
 import Swal from 'sweetalert2';
+import audiolink from './assets/takbir/takbiran1new.mp3'
 export default {
   data() {
     return {
       navbarOpen: false,
+      audioSrc: audiolink,
       sidebarOpen: false,
       active: null,
+      isPlaying: false,
+      isMuted: false,
       active1: null,
+      audioElement: null,
+      isPlaying: false,
+      muted: false,
+      isPlaying: false,
       isOpen: false,
       IsCS: false,
       IsSearch: false,
@@ -341,7 +407,25 @@ export default {
     }
   }
   },
+
+  mounted() {
+    this.attemptAutoPlay()
+  },
   methods: {
+    async attemptAutoPlay() {
+      try {
+        await this.$refs.audioElement.play()
+        this.isPlaying = true
+      } catch (error) {
+        console.log('Autoplay diblokir:', error)
+      }
+    },
+    toggleAudio() {
+      this.isPlaying = !this.isPlaying
+      this.isPlaying ? 
+        this.$refs.audioElement.play() : 
+        this.$refs.audioElement.pause()
+    },
     openSearch() {
       this.IsSearch = !this.IsSearch;
     },
