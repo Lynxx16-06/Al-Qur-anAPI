@@ -36,5 +36,11 @@
     "sapa": "你好，我是 Ilham Yuniar，Qur'anLynxx 的创始人",
     "sapa2": "如果发现 bug 或错误，可以咨询 Qur'anLynxx 客服。",
     "sapa3": "同意并理解",
-    "sapa4": "好的，我明白了"
+    "sapa4": "好的，我明白了",
+
+    "alter": {
+        "alter1": "很抱歉，当前设置暂不可用",
+        "alter2": "警告"
+    }
+
 }

@@ -15,12 +15,12 @@
 
     <!-- Tombol Dark Mode -->
     <nav
-      class="flex flex-wrap justify-between items-center lg:justify-center sm:h-20 lg:gap-80 px-5 py-4 bg-white bg-border-100 text-black transition-all duration-300 text-gray shadow-2xl fixed top-0 w-full z-50"
+      class="flex flex-wrap justify-between items-center lg:justify-evenly sm:h-20 px-5 py-4 bg-white bg-border-100 text-black transition-all duration-300 text-gray shadow-2xl fixed top-0 w-full z-50"
     >
       <h2 class="font-bold text-xl md:text-2xl">Qur'anLynxx</h2>
       <div class="flex items-center space-x-6">
-        <a href="/" class="hover:text-gray-300 sm:block hidden">Beranda</a>
-        <a href="/doa" class="hover:text-gray-300 sm:block hidden">Doa</a>
+        <a href="/" class="hover:text-gray-300 sm:block hidden">{{ $t('menu1')}}</a>
+        <a href="/doa" class="hover:text-gray-300 sm:block hidden">{{ $t('menu2')}}</a>
         <div class="items-center bg-gray-800 px-4 py-2 rounded-full border w-full md:flex hidden border-gray-600">
           <input
             class="bg-transparent outline-none text-white placeholder-gray-400 sm:w-40"
@@ -121,6 +121,7 @@
                   <input
                     class="bg-transparent outline-none border p-1 rounded-2xl pl-2 text-white placeholder-gray-400 w-full sm:w-40"
                     type="text"
+                    maxlength="15"
                     :placeholder="$t('cari')"
                     v-model="searchQuery"
                     @input="handleSearchInput"
@@ -214,6 +215,36 @@
         </main>
       </div>
 
+
+              <div class="relative md:inline-block text-left hidden">
+                  <!-- Button untuk membuka dropdown -->
+                  <button @click="toggleDropdown" class="flex items-center gap-2 p-2 border rounded-lg">
+                    <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM9.71002 19.6674C8.74743 17.6259 8.15732 15.3742 8.02731 13H4.06189C4.458 16.1765 6.71639 18.7747 9.71002 19.6674ZM10.0307 13C10.1811 15.4388 10.8778 17.7297 12 19.752C13.1222 17.7297 13.8189 15.4388 13.9693 13H10.0307ZM19.9381 13H15.9727C15.8427 15.3742 15.2526 17.6259 14.29 19.6674C17.2836 18.7747 19.542 16.1765 19.9381 13ZM4.06189 11H8.02731C8.15732 8.62577 8.74743 6.37407 9.71002 4.33256C6.71639 5.22533 4.458 7.8235 4.06189 11ZM10.0307 11H13.9693C13.8189 8.56122 13.1222 6.27025 12 4.24799C10.8778 6.27025 10.1811 8.56122 10.0307 11ZM14.29 4.33256C15.2526 6.37407 15.8427 8.62577 15.9727 11H19.9381C19.542 7.8235 17.2836 5.22533 14.29 4.33256Z"></path>
+                    </svg>
+                    <span>{{ getCurrentLanguage }}</span>
+                  </button>
+                
+                  <!-- Dropdown menu -->
+                  <div v-if="isOpen" class="absolute right-0 mt-2 w-40 bg-white bg-border-100 text-gray text-black border rounded-lg shadow-lg">
+                    <button @click="changeLanguage('id')" class="block w-full px-4 py-2 text-left hover:bg-gray-100">
+                      🇮🇩
+                    </button>
+                    <button @click="changeLanguage('en')" class="block w-full px-4 py-2 text-left hover:bg-gray-100">
+                      🇬🇧
+                    </button>
+                    <button @click="changeLanguage('jp')" class="block w-full px-4 py-2 text-left hover:bg-gray-100">
+                      🇯🇵
+                    </button>
+                    <button @click="changeLanguage('zh')" class="block w-full px-4 py-2 text-left hover:bg-gray-100">
+                      🇨🇳
+                    </button>
+                    <button @click="changeLanguage('ko')" class="block w-full px-4 py-2 text-left hover:bg-gray-100">
+                      🇰🇷
+                    </button>
+                  </div>
+              </div>
+
       <button
         @click="toggleDarkMode"
         class="md:p-2 md:rounded-full md:bg-gray-200 md:dark:bg-gray-800 md:fixed md:z-50 md:top-5  md:right-20 sm:flex sm:items-center hidden md:block md:cursor-pointer md:text-black md:dark:text-white md:shadow-lg md:hover:bg-gray-300 md:dark:hover:bg-gray-700 md:transition z-50 md:w-9 right-3 md:border-0 border rounded-full p-2 top-2 shadow-2xl"
@@ -301,15 +332,15 @@ export default {
   computed: {
     getCurrentLanguage() {
     if (this.$i18n.locale === 'id') {
-      return '🇮🇩 Indonesia';
+      return '🇮🇩';
     } else if (this.$i18n.locale === 'jp') {
-      return '🇯🇵 日本語';
+      return '🇯🇵';
     } else if (this.$i18n.locale === 'zh') {
-      return '🇨🇳 中文 ';
+      return '🇨🇳';
     } else if (this.$i18n.locale === 'ko') {
-      return '🇰🇷 한국어';
+      return '🇰🇷';
     } else {
-      return '🇬🇧 English';
+      return '🇬🇧';
     }
   }
   },
@@ -381,8 +412,8 @@ export default {
     },
     setting() {
       Swal.fire({
-        title: "Peringatan",
-        text: "Mohon Maaf Setting Sementara Belum Tersedia",
+        title: this.$t('alter.alter2'),
+        text: this.$t('alter.alter1'),
         icon: "info",
         confirmButtonText: "OK",
       });

@@ -36,7 +36,13 @@
     "sapa": "Hello, I am Ilham Yuniar, the creator of Qur'anLynxx.",
     "sapa2": "If there are any bugs or errors, you can ask Qur'anLynxx Customer Support.",
     "sapa3": "Agree to understand.",
-    "sapa4": "Okay, I understand."
+    "sapa4": "Okay, I understand.",
+
+    "alter": {
+        "alter1": "Sorry, the settings are currently unavailable",
+        "alter2": "Warning"
+    }
+
 
 
 }

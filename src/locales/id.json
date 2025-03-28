@@ -37,7 +37,12 @@
     "sapa": "Hallo, saya Ilham Yuniar Pembuat Qur'anLynxx",
     "sapa2": "Jika ada bug atau error, bisa ditanyakan di CS Qur'anLynxx.",
     "sapa3": "Setuju untuk dipahami",
-    "sapa4": "Oke, Saya Paham"
+    "sapa4": "Oke, Saya Paham",
+
+    "alter": {
+        "alter1" : "Mohon Maaf Setting Sementara Belum Tersedia",
+        "alter2" : "Peringatan"
+    }
 
 }
 
