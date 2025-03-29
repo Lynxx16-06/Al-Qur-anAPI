@@ -217,12 +217,12 @@
 
           <!-- EVENT -->
           <div class="hidden md:block overflow-x-auto w-full p-6 bg-white bg-border-100 my-5 rounded-lg shadow-md">
-            <h1 class="text-xl font-bold mb-4">Akan Datang</h1>
+            <h1 class="text-xl font-bold mb-10">Akan Datang</h1>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
               <div
                 v-for="(event, index) in events"
                 :key="index"
-                class="flex flex-col items-center bg-white bg-gray-10 p-5 rounded-2xl shadow-lg transform transition duration-300 hover:scale-105"
+                class="flex flex-col items-center bg-white animate-pulse bg-gray-10 p-5 rounded-2xl shadow-lg transform transition duration-300 hover:scale-105"
               >
                 <img class="w-24 h-24 rounded-2xl object-cover" :src="event.image" :alt="event.title" />
                 <h1 class="mt-3 text-lg font-semibold">{{ event.title }}</h1>
@@ -472,12 +472,12 @@ export default {
         { nomor: 1, nama: "Al-Fatihah", tempatTurun: "Mekah", jumlahAyat: 7 },
         { nomor: 55, nama: "Ar-Rahman", tempatTurun: "Madinah", jumlahAyat: 78 },
         { nomor: 67, nama: "Al-Mulk", tempatTurun: "Mekah", jumlahAyat: 30 },
-        { nomor: 18, nama: "Al-Kahfi", tempatTurun: "Mekah", jumlahAyat: 110 }
+        { nomor: 18, nama: "Al-Kahf", tempatTurun: "Mekah", jumlahAyat: 110 }
       ],
       events: [
         { title: "Mindful Fasting", image: img1 },
-        { title: "Ramadan", image: img2 },
-        { title: "Iron Healing", image: img3 },
+        { title: "Iron Healing", image: img2 },
+        { title: "Ramadan", image: img3 },
         { title: "Tuntunan Sholat", image: img4 },
       ],
     }
@@ -661,7 +661,7 @@ goToAyat(nomorSurah, nomorAyat) {
         localStorage.setItem("peringatan_disetujui", "true");
         this.Peringatan = false; 
       } else {
-        alert("Harap centang terlebih dahulu!");
+        alert($t('alter.alter3'));
       }
     },
     togglePeringatan() {

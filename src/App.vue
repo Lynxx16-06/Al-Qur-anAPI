@@ -118,30 +118,30 @@
                   v-model="searchQuery"
                   @input="handleSearchInput"
                 /> -->
-                <div class=" ">
-                    <audio ref="audioElement" :muted="muted" controls class="hidden">
-                      <source :src="audioSrc" type="audio/mpeg">
-                    </audio>
-                  
-                    <label class="flex items-center space-x-2 cursor-pointer">
-                      <div class="relative">
-                        <input 
-                          type="checkbox" 
-                          class="sr-only"
-                          :checked="isPlaying"
-                          @change="toggleAudio"
-                        >
-                        <div 
-                          class="w-12 h-6 bg-gray-300 rounded-full shadow-inner transition-colors duration-300"
-                          :class="{'bg-green-400': isPlaying}"
-                        ></div>
-                        <div 
-                          class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300"
-                          :class="{'translate-x-6': isPlaying}"
-                        ></div>
-                      </div>
-                    </label>
-                  </div>
+                <div>
+                  <audio ref="audioElement" :muted="false" controls class="hidden">
+                    <source :src="audioSrc" type="audio/mpeg">
+                  </audio>
+                
+                  <label class="flex items-center space-x-2 cursor-pointer">
+                    <div class="relative">
+                      <input 
+                        type="checkbox" 
+                        class="sr-only" 
+                        :checked="isPlaying" 
+                        @change="toggleAudio"
+                      >
+                      <div 
+                        class="w-12 h-6 bg-gray-300 rounded-full shadow-inner transition-colors duration-300"
+                        :class="{'bg-green-400': isPlaying}"
+                      ></div>
+                      <div 
+                        class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300"
+                        :class="{'translate-x-6': isPlaying}"
+                      ></div>
+                    </div>
+                  </label>
+                </div>
                 <svg @click="openSearch" class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"></path></svg>
 
                 <!-- Search -->
@@ -409,22 +409,30 @@ export default {
   },
 
   mounted() {
-    this.attemptAutoPlay()
+    this.$nextTick(() => {
+      this.$refs.audioElement.volume = 1.0; // Sesuaikan volume
+      this.loadAudioState();
+    });
   },
   methods: {
-    async attemptAutoPlay() {
-      try {
-        await this.$refs.audioElement.play()
-        this.isPlaying = true
-      } catch (error) {
-        console.log('Autoplay diblokir:', error)
-      }
-    },
     toggleAudio() {
-      this.isPlaying = !this.isPlaying
-      this.isPlaying ? 
-        this.$refs.audioElement.play() : 
-        this.$refs.audioElement.pause()
+      this.isPlaying = !this.isPlaying;
+      if (this.isPlaying) {
+        this.$refs.audioElement.play();
+      } else {
+        this.$refs.audioElement.pause();
+      }
+      this.saveAudioState();
+    },
+    saveAudioState() {
+      localStorage.setItem('audioState', JSON.stringify({ isPlaying: this.isPlaying }));
+    },
+    loadAudioState() {
+      const savedState = JSON.parse(localStorage.getItem('audioState'));
+      if (savedState && savedState.isPlaying) {
+        this.isPlaying = true;
+        this.$refs.audioElement.play();
+      }
     },
     openSearch() {
       this.IsSearch = !this.IsSearch;

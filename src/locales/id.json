@@ -41,7 +41,8 @@
 
     "alter": {
         "alter1" : "Mohon Maaf Setting Sementara Belum Tersedia",
-        "alter2" : "Peringatan"
+        "alter2" : "Peringatan",
+        "alter3" : "Harap centang terlebih dahulu!"
     }
 
 }
