@@ -580,7 +580,7 @@ toggleBookmark(ayat) {
     // alert('Disimpan')
     Swal.fire({
       title: 'Berhasil!',
-      text: 'Ayat telah disimpan ke bookmark',
+      text: this.$t('alter.alter4'),
       icon: 'success',
       confirmButtonText: 'Oke'
     })
@@ -661,7 +661,11 @@ goToAyat(nomorSurah, nomorAyat) {
         localStorage.setItem("peringatan_disetujui", "true");
         this.Peringatan = false; 
       } else {
-        alert($t('alter.alter3'));
+        // alert($t('alter.alter3'));
+        Swal.fire ({
+          title: "Warning",
+          text: this.$t('alter.alter3')
+        })
       }
     },
     togglePeringatan() {
@@ -716,7 +720,12 @@ goToAyat(nomorSurah, nomorAyat) {
     },
     playAudio() {
       if (!this.selectedQari) {
-        alert("Pilih Qari terlebih dahulu!");
+        Swal.fire({
+          title: 'Qari',
+          text: this.$t('alter.alter5'),
+          icon: 'warning',
+          confirmButtonText: 'OK'
+        })
         return;
       }
       this.$refs.audioPlayer.src = this.selectedSurat.audioFull[this.selectedQari];

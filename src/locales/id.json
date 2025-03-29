@@ -42,7 +42,9 @@
     "alter": {
         "alter1" : "Mohon Maaf Setting Sementara Belum Tersedia",
         "alter2" : "Peringatan",
-        "alter3" : "Harap centang terlebih dahulu!"
+        "alter3" : "Harap centang terlebih dahulu!",
+        "alter4" : "Ayat telah disimpan ke bookmark",
+        "alter5" : "Silakan pilih qari untuk mendengarkan"
     }
 
 }
